@@ -1,0 +1,21 @@
+{
+  "trace_id": "abc123-xyz789",
+  "timestamp": "2024-11-20T14:30:45.123Z",
+  "service": "user-authentication-service",
+  "log_level": "INFO",
+  "event": {
+    "name": "UserLogin",
+    "status": "success",
+    "message": "User successfully logged in."
+  },
+  "context": {
+    "user_id": "user456",
+    "session_id": "sess789",
+    "ip_address": "192.168.1.1"
+  },
+  "on_demand_triggers": {
+    "error": false,
+    "performance_issue": false,
+    "custom_condition": "n/a"
+  }
+}
