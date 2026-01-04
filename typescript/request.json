@@ -1,0 +1,41 @@
+{
+  "receiver": "Incident-Enrichment-Lambda",
+  "status": "firing",
+  "orgId": 1,
+  "alerts": [
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "HighCPUUtilization",
+        "instance": "i-1234567890abcdef0",
+        "severity": "critical",
+        "resource_id": "i-1234567890abcdef0",
+        "cluster": "prod-api-cluster"
+      },
+      "annotations": {
+        "summary": "CPU usage is above 80%",
+        "description": "Instance i-1234567890abcdef0 has sustained high CPU usage for 5 minutes.",
+        "service_name": "checkout-api",
+        "starts_at": "2025-12-20T10:15:00Z",
+        "source_url": "https://grafana.example.com/d/abc123/checkout-dashboard?viewPanel=5"
+      },
+      "startsAt": "2025-12-20T10:15:00Z",
+      "endsAt": "0001-01-01T00:00:00Z",
+      "generatorURL": "https://grafana.example.com/alerting/rules/1/view"
+    }
+  ],
+  "commonLabels": {
+    "alertname": "HighCPUUtilization",
+    "severity": "critical",
+    "resource_id": "i-1234567890abcdef0"
+  },
+  "commonAnnotations": {
+    "summary": "CPU usage is above 80%",
+    "service_name": "checkout-api",
+    "starts_at": "2025-12-20T10:15:00Z",
+    "source_url": "https://grafana.example.com/d/abc123/checkout-dashboard?viewPanel=5"
+  },
+  "externalURL": "https://grafana.example.com",
+  "title": "[FIRING:1] HighCPUUtilization",
+  "message": "CPU usage is above 80%"
+}
