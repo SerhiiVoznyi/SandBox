@@ -2,3 +2,19 @@
 /С\#/SandBox/obj
 /С\#/SandBox/.vs/SandBox
 *.bin
+# Flutter / Dart
+*.dart_tool/
+*.packages
+*.pub/
+build/
+
+# Android
+android/.gradle/
+android/local.properties
+android/key.properties
+*.jks
+
+# iOS (future)
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/ephemeral/
