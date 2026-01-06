@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'routes.dart';
+import 'theme.dart';
 
 class YumOrYuckApp extends StatelessWidget {
   const YumOrYuckApp({super.key});
@@ -11,6 +12,7 @@ class YumOrYuckApp extends StatelessWidget {
       title: 'Kids Games',
       routes: AppRoutes.routes,
       initialRoute: AppRoutes.splash,
+      theme: AppTheme.dark(),
     );
   }
 }
