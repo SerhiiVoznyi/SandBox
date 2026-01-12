@@ -2,6 +2,8 @@
 
 ## Intro
 
+In AWS Lambda, logging should be designed around the fact that executions are short-lived, parallel, and can be killed at any moment, so the best pattern is hybrid logging: keep a few always-on, minimal “breadcrumb” logs written directly to console.log to show high-level progress that survives crashes and timeouts, while buffering rich, structured logs in memory during the invocation and only flushing them to CloudWatch on errors; this gives you near-zero cost and overhead on successful runs, full context when something fails, and still preserves enough trace when Lambda is terminated before your code can catch an exception.
+
 - `console.log` is slow in Lambda (network flush)
 - too many logs = higher Lambda duration + CloudWatch cost
 - logs can be lost if Lambda crashes before flush
