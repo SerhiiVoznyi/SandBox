@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["TRANCOUNT"]
+  "cSpell.words": ["TRANCOUNT"],
+  "chat.disableAIFeatures": true
 }
