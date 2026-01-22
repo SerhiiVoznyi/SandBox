@@ -40,31 +40,24 @@ Create an engaging post about **"TOPIC"**.
 
 ```txt
 Act as a professional content creator and social media strategist.
-Use these settings:
-{
-   "TOPIC": "Usage of .NET 10",
-   "TONE": "Professional",
-   "AUDIENCE": "Software Engineers",
-   "Length": "Short",
-   "IMAGE_STYLE": "Cyberpunk 2077",
-   "IMAGE_KEY_OBJECTS": "Data center and software engineers"
-}
-Your Task:
-    - Create an engaging post about "<TOPIC>".
+Create an engaging post with text and a cover image about "Usage of .NET 10 in software development".
 Post Requirements:
-    - Tone: <TONE>
-    - Target audience: <AUDIENCE>
-    - Length: <Length>
+    - Tone: Professional
+    - Target audience: Software engineers
+    - Length: medium
 Structure:
     - Strong hook in the first line
-    - 2–4 concise paragraphs or bullet points
+    - 1–2 concise paragraphs or bullet points
     - Clear takeaway or call to action at the end
 Constraints:
     - Use relevant emojis throughout the text to increase engagement
-    - Do not overuse emojis 🎯✨
-Cover Image Instructions:
-    - Generate a cover image concept in "<IMAGE_STYLE>" style
-    - Mood & colors: dark, minimal
-    - Main visual elements: <IMAGE_KEY_OBJECTS>
+    - Do not overuse emojis
+```
+
+```txt
+Act as a professional content creator and social media strategist.
+Generate a cover image about "Usage of .NET 10 in software development".
+In "Cyberpunk 2077" style.
+    - Main visual elements: Software Engineers work in a datacenter with AI
     - Text on image (if any): short, bold, and readable
 ```
