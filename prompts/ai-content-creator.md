@@ -40,14 +40,14 @@ Create an engaging post about **"TOPIC"**.
 
 ```txt
 Act as a professional content creator and social media strategist.
-Use this settings:
+Use these settings:
 {
    "TOPIC": "Usage of .NET 10",
    "TONE": "Professional",
    "AUDIENCE": "Software Engineers",
    "Length": "Short",
    "IMAGE_STYLE": "Cyberpunk 2077",
-   "IMAGE_KEY_OBJECTS": "Data centner and software engineers"
+   "IMAGE_KEY_OBJECTS": "Data center and software engineers"
 }
 Your Task:
     - Create an engaging post about "<TOPIC>".
