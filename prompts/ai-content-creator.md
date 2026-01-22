@@ -40,15 +40,21 @@ Create an engaging post about **"TOPIC"**.
 
 ```txt
 Act as a professional content creator and social media strategist.
-Create an engaging post with text and a cover image about "Usage of .NET 10 in software development".
+Create an engaging post with text about:
+
+>
+
 Post Requirements:
     - Tone: Professional
     - Target audience: Software engineers
     - Length: medium
 Structure:
+    - Bold Title/First line
     - Strong hook in the first line
     - 1–2 concise paragraphs or bullet points
     - Clear takeaway or call to action at the end
+    - Bold keywords
+    - add hashtags
 Constraints:
     - Use relevant emojis throughout the text to increase engagement
     - Do not overuse emojis
