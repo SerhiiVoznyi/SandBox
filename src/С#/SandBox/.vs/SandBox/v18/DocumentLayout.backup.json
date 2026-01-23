@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "C:\\Development\\Private\\SandBox\\src\\\u0421#\\SandBox\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{81981140-B8D8-4B32-A3C4-2B753A8A1988}|..\\SandBox.Unit.Tests\\SandBox.Unit.Tests.csproj|c:\\development\\private\\sandbox\\src\\\u0441#\\sandbox.unit.tests\\algorithms\\array.search.unit.tests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{81981140-B8D8-4B32-A3C4-2B753A8A1988}|..\\SandBox.Unit.Tests\\SandBox.Unit.Tests.csproj|c:\\development\\private\\sandbox\\src\\\u0441#\\sandbox.unit.tests\\algorithms\\string.longestsequence.unit.test.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,14 +50,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Array.Search.Unit.Tests.cs",
-              "DocumentMoniker": "C:\\Development\\Private\\SandBox\\src\\\u0421#\\SandBox.Unit.Tests\\Algorithms\\Array.Search.Unit.Tests.cs",
-              "RelativeDocumentMoniker": "..\\SandBox.Unit.Tests\\Algorithms\\Array.Search.Unit.Tests.cs",
-              "ToolTip": "C:\\Development\\Private\\SandBox\\src\\\u0421#\\SandBox.Unit.Tests\\Algorithms\\Array.Search.Unit.Tests.cs",
-              "RelativeToolTip": "..\\SandBox.Unit.Tests\\Algorithms\\Array.Search.Unit.Tests.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAAAAAAAAAAAAA==",
+              "Title": "String.LongestSequence.Unit.Test.cs",
+              "DocumentMoniker": "C:\\Development\\Private\\SandBox\\src\\\u0421#\\SandBox.Unit.Tests\\Algorithms\\String.LongestSequence.Unit.Test.cs",
+              "RelativeDocumentMoniker": "..\\SandBox.Unit.Tests\\Algorithms\\String.LongestSequence.Unit.Test.cs",
+              "ToolTip": "C:\\Development\\Private\\SandBox\\src\\\u0421#\\SandBox.Unit.Tests\\Algorithms\\String.LongestSequence.Unit.Test.cs",
+              "RelativeToolTip": "..\\SandBox.Unit.Tests\\Algorithms\\String.LongestSequence.Unit.Test.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T09:47:47.025Z",
+              "WhenOpened": "2026-01-23T11:12:34.246Z",
               "EditorCaption": ""
             }
           ]
