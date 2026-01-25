@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace SandBox.Unit.Tests.Algorithms;
+﻿namespace SandBox.Unit.Tests.Algorithms;
 
 public class ArraySearchUnitTests
 {
@@ -56,7 +54,7 @@ public class ArraySearchUnitTests
     public void Test_Search(int target, bool expected)
     {
         // Arrange
-        var nums = new[] { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 }; 
+        var nums = new[] { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 };
         // Act
         var resilts = new[] { HasSum(nums, target), HasSumTwoPointers(nums, target) };
         // Assert
