@@ -1,6 +1,6 @@
 ﻿namespace SandBox.Tests
 {
-    public class UnitTest1
+    public class BinaryTreeAlgorithmsTests
     {
         [Fact]
         public void Test1()
