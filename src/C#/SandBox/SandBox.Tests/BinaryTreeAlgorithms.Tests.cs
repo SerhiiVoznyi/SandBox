@@ -3,7 +3,7 @@
     public class BinaryTreeAlgorithmsTests
     {
         [Fact]
-        public void Test1()
+        public void Revert()
         {
 
         }
