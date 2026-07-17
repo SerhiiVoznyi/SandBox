@@ -6,31 +6,40 @@ All code examples use **C# 12 / .NET 8** with implicit global usings enabled.
 
 ---
 
-## Table of Contents
+## Content
 
 1. [Developer Role Requirements Explained](#developer-role-requirements-explained)
 2. [How to Use This Guide](#how-to-use-this-guide)
 3. [Part 1: Searching Algorithms](#part-1-searching-algorithms)
    - [Linear Search](#11-linear-search)
    - [Binary Search](#12-binary-search)
+   - [Binary Search Variants](#13-binary-search-variants)
 4. [Part 2: Sorting Algorithms](#part-2-sorting-algorithms)
    - [Bubble Sort](#bubble-sort)
    - [Selection Sort](#selection-sort)
-   - [Insertion Sort](#insertion-sort)
    - [Merge Sort](#21-merge-sort-must-know)
    - [Quick Sort](#22-quick-sort-must-know)
-   - [Heap Sort](#heap-sort)
+   - [Built-in Sort](#23-built-in-sort-in-interviews)
+   - [Insertion Sort](#24-insertion-sort)
+   - [Heap Sort](#25-heap-sort)
+   - [Dutch National Flag](#26-dutch-national-flag)
+   - [Quickselect](#27-quickselect)
    - [Counting Sort](#counting-sort)
    - [Radix Sort](#radix-sort)
-   - [Built-in Sort and Dutch National Flag](#23-built-in-sort-in-interviews)
 5. [Part 3: Two Pointers & Sliding Window](#part-3-two-pointers--sliding-window)
    - [Two Pointers](#31-two-pointers)
    - [Sliding Window](#32-sliding-window)
+   - [Same-Direction Two Pointers](#33-same-direction-two-pointers)
 6. [Part 4: Hash-Based Algorithms](#part-4-hash-based-algorithms)
-   - [Hash Map and Unsorted Two Sum](#unsorted-two-sum)
+   - [Hash Map Fundamentals](#41-hash-map-fundamentals)
+   - [Unsorted Two Sum](#42-unsorted-two-sum)
+   - [Frequency Counting and Deduplication](#43-frequency-counting-and-deduplication)
+   - [Subarray Sum Equals K](#44-subarray-sum-equals-k)
 7. [Part 5: Stack & Queue Algorithms](#part-5-stack--queue-algorithms)
    - [Stack and Parentheses Validation](#51-stack-lifo)
-   - [Queue, Deque, and Level-Order Traversal](#52-queue--deque-fifo)
+   - [Queue and Deque](#52-queue--deque-fifo)
+   - [Monotonic Stack](#53-monotonic-stack)
+   - [Sliding Window Maximum](#54-sliding-window-maximum-with-a-deque)
 8. [Part 6: Tree Algorithms](#part-6-tree-algorithms)
    - [Tree Traversals](#61-traversals-must-know)
    - [Binary Search Tree Operations](#62-bst-operations)
@@ -41,25 +50,44 @@ All code examples use **C# 12 / .NET 8** with implicit global usings enabled.
    - [Shortest Paths: BFS, Dijkstra, Bellman-Ford, Floyd-Warshall](#74-shortest-path)
    - [Union-Find / Disjoint Set Union](#75-union-find-disjoint-set-union)
 10. [Part 8: Heap / Priority Queue](#part-8-heap--priority-queue)
-    - [Top K Frequent Elements](#top-k-frequent-elements)
+    - [Top K Frequent Elements](#81-top-k-frequent-elements)
+    - [K-th Largest with a Bounded Heap](#82-k-th-largest-with-a-bounded-heap)
 11. [Part 9: String Algorithms](#part-9-string-algorithms)
-    - [Frequency Counting](#string-frequency-counting)
-    - [Two Pointers on Strings](#string-two-pointers)
+    - [Basic String Techniques](#91-basic-techniques)
+    - [Anagram with Frequency Counting](#92-anagram-with-frequency-counting)
+    - [Palindrome with Two Pointers](#93-palindrome-with-two-pointers)
+    - [Common String Problems](#94-common-problems)
+    - [Trie](#95-trie-prefix-tree)
     - [Rolling Hash / Rabin-Karp](#rolling-hash--rabin-karp)
     - [Prefix Function / KMP](#prefix-function--kmp)
-    - [Trie](#trie-prefix-tree)
-    - [Common String Problems](#92-common-problems)
 12. [Part 10: Classic Misc Algorithms](#part-10-classic-misc-algorithms)
-    - [Kadane's Algorithm](#kadanes-algorithm)
-    - [Floyd's Cycle Detection](#floyds-cycle-detection)
-    - [Fast Exponentiation](#fast-exponentiation)
-    - [Euclidean GCD](#euclidean-gcd)
-    - [Sieve of Eratosthenes](#sieve-of-eratosthenes)
-13. [Pattern Recognition Cheat Sheet](#pattern-recognition-cheat-sheet)
-14. [8-Week Study Plan](#8-week-study-plan)
-15. [Practice Platforms](#practice-platforms)
-16. [Starter Problem List](#starter-problem-list)
-17. [Self-Check Checklist](#self-check-checklist)
+    - [Kadane's Algorithm](#101-kadanes-algorithm)
+    - [Floyd's Cycle Detection](#102-floyds-cycle-detection)
+    - [Fast Exponentiation](#103-fast-exponentiation)
+    - [Euclidean GCD and LCM](#104-euclidean-gcd-and-lcm)
+    - [Sieve of Eratosthenes](#105-sieve-of-eratosthenes)
+    - [Prefix Sums](#106-prefix-sums)
+13. [Part 11: Linked List Algorithms](#part-11-linked-list-algorithms)
+    - [Reverse a Singly Linked List](#111-reverse-a-singly-linked-list)
+    - [Find the Middle Node](#112-find-the-middle-node)
+    - [Floyd's Cycle Detection](#113-floyds-cycle-detection)
+    - [Merge Two Sorted Linked Lists](#114-merge-two-sorted-linked-lists)
+14. [Part 12: Dynamic Programming](#part-12-dynamic-programming)
+    - [Climbing Stairs](#121-climbing-stairs)
+    - [Coin Change](#122-coin-change)
+    - [Longest Common Subsequence](#123-longest-common-subsequence)
+    - [Edit Distance](#124-edit-distance)
+15. [Part 13: Greedy Algorithms](#part-13-greedy-algorithms)
+    - [Merge Intervals](#131-merge-intervals)
+    - [Activity Selection](#132-activity-selection)
+16. [Part 14: Backtracking](#part-14-backtracking)
+    - [Subsets](#141-subsets)
+    - [Permutations](#142-permutations)
+17. [Pattern Recognition Cheat Sheet](#pattern-recognition-cheat-sheet)
+18. [12-Week Study Plan](#12-week-study-plan)
+19. [Practice Platforms](#practice-platforms)
+20. [Starter Problem List](#starter-problem-list)
+21. [Self-Check Checklist](#self-check-checklist)
 
 ---
 
@@ -173,6 +201,8 @@ They usually **do not** expect expert-level competitive programming for entry-le
 
 ### 1.1 Linear Search
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Linear search provides the simplest way to locate a value when the data has no useful ordering or index. It examines elements one at a time, so it works on almost any collection without preprocessing.
 
 | | |
@@ -207,6 +237,8 @@ public static class LinearSearchAlgorithm
 ---
 
 ### 1.2 Binary Search
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Linear search becomes expensive on large collections. Binary search takes advantage of sorted data—or any monotonic condition—to discard half of the remaining possibilities after every comparison.
 
@@ -258,6 +290,8 @@ public static class BinarySearchAlgorithm
 
 ### 1.3 Binary Search Variants
 
+[↑ Content](#content)
+
 **Why they exist / problem they solve:** Many sorted-data problems need a boundary or the smallest feasible answer rather than an exact match. These variants preserve O(log n) search by discarding half of the remaining candidates each step.
 
 | Method | Result |
@@ -267,6 +301,8 @@ public static class BinarySearchAlgorithm
 | First true | Smallest integer satisfying a monotonic predicate |
 
 **Time:** O(log n). **Space:** O(1).
+
+`FirstTrue` returns `null` when no value in the requested range satisfies the predicate.
 
 ```csharp
 public static class BinarySearchVariants
@@ -309,23 +345,37 @@ public static class BinarySearchVariants
         return left;
     }
 
-    public static int FirstTrue(
+    public static int? FirstTrue(
         int minimum,
         int maximum,
         Func<int, bool> condition)
     {
         ArgumentNullException.ThrowIfNull(condition);
 
-        while (minimum < maximum)
+        if (minimum > maximum)
+            throw new ArgumentException("Minimum must not exceed maximum.");
+
+        int left = minimum;
+        int right = maximum;
+        int? answer = null;
+
+        while (left <= right)
         {
-            int middle = minimum + (maximum - minimum) / 2;
+            int middle = (int)(
+                (long)left + ((long)right - left) / 2);
+
             if (condition(middle))
-                maximum = middle;
+            {
+                answer = middle;
+                right = middle - 1;
+            }
             else
-                minimum = middle + 1;
+            {
+                left = middle + 1;
+            }
         }
 
-        return minimum;
+        return answer;
     }
 }
 ```
@@ -336,7 +386,7 @@ public static class BinarySearchVariants
 int[] numbers = [1, 2, 2, 2, 5];
 int firstTwo = BinarySearchVariants.LowerBound(numbers, 2); // 1
 int afterTwos = BinarySearchVariants.UpperBound(numbers, 2); // 4
-int firstSquareAtLeast30 =
+int? firstSquareAtLeast30 =
     BinarySearchVariants.FirstTrue(0, 30, value => value * value >= 30); // 6
 ```
 
@@ -350,10 +400,10 @@ Sorting algorithms exist to put data into a predictable order so that later oper
 
 - <a id="bubble-sort"></a>**Bubble Sort:** Repeatedly swaps adjacent out-of-order values. It mainly exists as a teaching tool and can be acceptable for tiny inputs.
 - <a id="selection-sort"></a>**Selection Sort:** Repeatedly selects the smallest remaining value. It is useful when minimizing the number of writes or swaps matters more than comparisons.
-- <a id="insertion-sort"></a>**Insertion Sort:** Inserts each value into an already-sorted prefix. It solves small or nearly sorted inputs efficiently and is often used inside hybrid sorting algorithms.
+- **Insertion Sort:** Inserts each value into an already-sorted prefix. It solves small or nearly sorted inputs efficiently and is often used inside hybrid sorting algorithms.
 - **Merge Sort:** Splits data, sorts each half, and merges the results. It provides predictable O(n log n) performance and stable ordering.
 - **Quick Sort:** Partitions values around a pivot. It is designed for fast, in-place, general-purpose sorting with good average performance.
-- <a id="heap-sort"></a>**Heap Sort:** Uses a heap to repeatedly select the next largest or smallest value. It provides O(n log n) worst-case time while sorting in place.
+- **Heap Sort:** Uses a heap to repeatedly select the next largest or smallest value. It provides O(n log n) worst-case time while sorting in place.
 - <a id="counting-sort"></a>**Counting Sort:** Counts occurrences of each value instead of comparing values. It solves sorting efficiently when integers come from a small, known range.
 - <a id="radix-sort"></a>**Radix Sort:** Sorts values one digit or character position at a time. It avoids direct comparisons for fixed-width numbers or strings.
 
@@ -363,12 +413,14 @@ Sorting algorithms exist to put data into a predictable order so that later oper
 | Selection Sort | O(n²) | O(n²) | O(n²) | O(1) | No | Few swaps |
 | Insertion Sort | O(n) | O(n²) | O(n²) | O(1) | Yes | Good for small/nearly sorted |
 | Merge Sort | O(n log n) | O(n log n) | O(n log n) | O(n) | Yes | Divide & conquer, linked lists |
-| Quick Sort | O(n log n) | O(n log n) | O(n²) | O(log n) | No | Fast in practice, in-place |
+| Quick Sort | O(n log n) | O(n log n) | O(n²) | O(log n) average; O(n) worst | No | Fast in practice, in-place |
 | Heap Sort | O(n log n) | O(n log n) | O(n log n) | O(1) | No | Priority queue connection |
 | Counting Sort | O(n+k) | O(n+k) | O(n+k) | O(k) | Yes | Small integer range |
 | Radix Sort | O(d·(n+k)) | O(d·(n+k)) | O(d·(n+k)) | O(n+k) | Yes | Fixed-width digits |
 
 ### 2.1 Merge Sort (must know)
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Merge Sort is used when predictable performance and stability matter. By dividing the input into small pieces and merging them in order, it guarantees O(n log n) time even when the original data is already sorted or arranged unfavorably.
 
@@ -439,6 +491,8 @@ public static class MergeSortAlgorithm
 
 ### 2.2 Quick Sort (must know)
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Quick Sort provides a fast general-purpose sort that usually needs little extra memory. Partitioning places one pivot in its final position and separates smaller values from larger ones, turning one large sorting problem into two smaller ones.
 
 ```csharp
@@ -499,6 +553,8 @@ QuickSortAlgorithm.Sort(numbers); // numbers is now [1, 2, 5, 8]
 
 ### 2.3 Built-in Sort in Interviews
 
+[↑ Content](#content)
+
 In real coding interviews, use built-in sorting (`Array.Sort()`, `List<T>.Sort()`, or LINQ `OrderBy()`) unless asked to implement. Still know **why** it is roughly O(n log n) and when stability matters.
 
 **Dutch National Flag:** This three-pointer partitioning algorithm exists to group three categories in one O(n) pass and O(1) extra space instead of performing a full sort. It solves problems such as Sort Colors and is also the basis of three-way Quick Sort partitioning.
@@ -506,6 +562,8 @@ In real coding interviews, use built-in sorting (`Array.Sort()`, `List<T>.Sort()
 **Practice:** Sort colors (Dutch flag), merge intervals, largest number from array, k-th largest element.
 
 ### 2.4 Insertion Sort
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Insertion Sort has very low overhead and adapts to data that is already almost sorted. It grows a sorted prefix by inserting each new value into its correct position.
 
@@ -538,6 +596,8 @@ public static class InsertionSortAlgorithm
 **Example:** `int[] values = [5, 2, 4, 3]; InsertionSortAlgorithm.Sort(values); // [2, 3, 4, 5]`
 
 ### 2.5 Heap Sort
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Heap Sort guarantees O(n log n) time while sorting in place. A max-heap keeps the largest remaining value at the root so it can be moved to the end repeatedly.
 
@@ -588,6 +648,8 @@ public static class HeapSortAlgorithm
 
 ### 2.6 Dutch National Flag
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** When values belong to exactly three groups, a full comparison sort performs unnecessary work. Three boundaries partition the array into low, middle, and high groups in one pass.
 
 **Time:** O(n). **Space:** O(1). **Use when:** Three-way classification or Quick Sort partitioning with many duplicates.
@@ -632,6 +694,8 @@ public static class DutchNationalFlagAlgorithm
 **Example:** `int[] colors = [2, 0, 1, 2, 0]; DutchNationalFlagAlgorithm.SortZeroOneTwo(colors); // [0, 0, 1, 2, 2]`
 
 ### 2.7 Quickselect
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Quickselect finds an order statistic, such as the k-th largest value, without fully sorting the collection. Like Quick Sort, it partitions around a pivot but continues into only one side.
 
@@ -700,6 +764,8 @@ These are very common in interviews and production code.
 
 ### 3.1 Two Pointers
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Two pointers avoid repeatedly scanning the same collection when two positions can move according to a useful relationship. The technique commonly reduces pair, range, or in-place array problems from O(n²) to O(n).
 
 | Pattern | Problem it solves | Example |
@@ -743,6 +809,8 @@ public static class SortedTwoSumAlgorithm
 ---
 
 ### 3.2 Sliding Window
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Recalculating every possible contiguous subarray or substring is often O(n²) or worse. A sliding window reuses information from the previous range while expanding or shrinking its boundaries, which often reduces the work to O(n).
 
@@ -790,6 +858,8 @@ public static class LongestUniqueSubstringAlgorithm
 
 ### 3.3 Same-Direction Two Pointers
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** A read pointer examines each value while a write pointer tracks where the next retained value belongs. This compacts arrays in place without allocating another collection.
 
 **Time:** O(n). **Space:** O(1).
@@ -828,6 +898,8 @@ public static class RemoveDuplicatesFromSortedArray
 
 ### 4.1 Hash Map Fundamentals
 
+[↑ Content](#content)
+
 **Why they exist / problem they solve:** Hash-based algorithms provide fast lookup by key, avoiding a repeated scan through the collection. They trade additional memory for efficient membership tests, frequency counts, deduplication, and matching values such as complements in Two Sum.
 
 | | |
@@ -837,7 +909,11 @@ public static class RemoveDuplicatesFromSortedArray
 
 ### 4.2 Unsorted Two Sum
 
+[↑ Content](#content)
+
 The hash-map version of **Two Sum** stores previously seen values so it can find each value's complement in O(1) average time. This reduces the pair search from O(n²) brute force to O(n) average time.
+
+**Time:** O(n) average. **Space:** O(n).
 
 ```csharp
 public static class UnsortedTwoSumAlgorithm
@@ -871,6 +947,8 @@ public static class UnsortedTwoSumAlgorithm
 **Example:** `var pair = UnsortedTwoSumAlgorithm.FindPair([2, 7, 11, 15], target: 9); // (0, 1)`
 
 ### 4.3 Frequency Counting and Deduplication
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Frequency maps answer “how many?” while hash sets answer “have we seen this?” Both replace repeated scans with O(1) average lookup.
 
@@ -913,6 +991,8 @@ public static class HashCollectionPatterns
 
 ### 4.4 Subarray Sum Equals K
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** If two prefix sums differ by `k`, the values between them sum to `k`. A frequency map counts matching earlier prefixes in one pass, including arrays with negative values.
 
 **Time:** O(n) average. **Space:** O(n).
@@ -952,9 +1032,13 @@ public static class SubarraySumAlgorithm
 
 ### 5.1 Stack (LIFO)
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** A stack remembers items in reverse order of arrival, which matches problems where the most recent unfinished operation must be handled first. This makes it natural for nested structures, undo operations, expression evaluation, DFS, and monotonic-stack problems.
 
 **Use for:** Matching parentheses, undo, DFS, monotonic stack.
+
+The parentheses validator runs in **O(n) time** and uses **O(n) stack space** in the worst case.
 
 ```csharp
 public static class ParenthesesValidator
@@ -1002,6 +1086,8 @@ public static class ParenthesesValidator
 
 ### 5.2 Queue / Deque (FIFO)
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** A queue processes items in arrival order, which is needed for fair scheduling and level-by-level exploration. A deque extends this idea by allowing efficient insertion and removal at both ends, which helps maintain candidates for sliding-window problems.
 
 **Use for:** BFS, task scheduling, sliding window max.
@@ -1009,6 +1095,8 @@ public static class ParenthesesValidator
 The deque-based Sliding Window Maximum implementation later in this section demonstrates why access to both ends matters.
 
 ### 5.3 Monotonic Stack
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** A decreasing stack keeps only values that can still be the next greater answer for a future element. Each index is pushed and popped at most once.
 
@@ -1043,6 +1131,8 @@ public static class NextGreaterElementAlgorithm
 **Example:** `int[] next = NextGreaterElementAlgorithm.FindNextGreaterValues([2, 1, 4, 3]); // [4, 4, -1, -1]`
 
 ### 5.4 Sliding Window Maximum with a Deque
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** A decreasing deque stores only indices that can still become the maximum. It avoids rescanning each window or maintaining a fully sorted structure.
 
@@ -1115,6 +1205,8 @@ public sealed class TreeNode
 ```
 
 ### 6.1 Traversals (must know)
+
+[↑ Content](#content)
 
 **Why they exist / problem they solve:** Trees are hierarchical rather than sequential, so traversal algorithms define a systematic order in which every node is visited. Different orders expose different properties: inorder sorts a BST, preorder handles a parent before its children, postorder handles children before their parent, and level order explores by depth.
 
@@ -1229,6 +1321,8 @@ public static class AdditionalTreeTraversals
 
 ### 6.2 BST Operations
 
+[↑ Content](#content)
+
 **Why they exist / problem they solve:** A Binary Search Tree maintains the rule `left < node < right`, allowing search, insertion, and deletion to ignore an entire subtree at each step. It solves the problem of maintaining a dynamic ordered collection, although a balanced BST is needed to guarantee logarithmic performance.
 
 | Operation | Average | Worst (unbalanced) |
@@ -1236,6 +1330,10 @@ public static class AdditionalTreeTraversals
 | Search | O(log n) | O(n) |
 | Insert | O(log n) | O(n) |
 | Delete | O(log n) | O(n) |
+
+Recursive operations use O(h) call-stack space, where `h` is tree height.
+
+The implementation ignores duplicate insertions, and `LowestCommonAncestor` assumes both requested values exist in the tree.
 
 ```csharp
 public static class BinarySearchTreeAlgorithms
@@ -1356,11 +1454,14 @@ These representations exist because graph performance depends heavily on how edg
 
 ### 7.1 BFS (Breadth-First Search)
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** BFS explores a graph one distance level at a time. This ordering makes it the standard solution for reachability and shortest paths when every edge has equal cost.
 
 | | |
 |---|---|
 | **Time** | O(V + E) |
+| **Space** | O(V) |
 | **Use when** | Shortest path in unweighted graph, level-by-level exploration |
 
 ```csharp
@@ -1455,11 +1556,14 @@ public static class UnweightedShortestPath
 
 ### 7.2 DFS (Depth-First Search)
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** DFS follows one path as deeply as possible before backtracking. It is useful when a problem requires complete exploration, structural analysis, cycle detection, connected components, or trying choices recursively.
 
 | | |
 |---|---|
 | **Time** | O(V + E) |
+| **Space** | O(V) |
 | **Use when** | Connectivity, cycles, topological sort, backtracking on graphs |
 
 ```csharp
@@ -1554,6 +1658,8 @@ public static class IterativeDepthFirstSearch
 
 **Connected components:** Repeating DFS from every unvisited vertex groups an undirected graph in O(V + E) time and O(V) space.
 
+The adjacency list must represent undirected edges in both directions.
+
 ```csharp
 public static class ConnectedComponentsAlgorithm
 {
@@ -1599,6 +1705,8 @@ public static class ConnectedComponentsAlgorithm
 ---
 
 ### 7.3 Topological Sort
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Topological Sort creates a valid linear order from dependencies in a directed acyclic graph (DAG). It solves questions such as which course, task, or build target must be completed before another and also detects when cyclic dependencies make an order impossible.
 
@@ -1662,6 +1770,8 @@ public static class TopologicalSortAlgorithm
 
 ### 7.4 Shortest Path
 
+[↑ Content](#content)
+
 **Why these algorithms exist / problem they solve:** Shortest-path algorithms find the minimum-cost route between vertices, but different edge rules require different methods. Choosing the correct algorithm prevents incorrect results and avoids unnecessary work.
 
 | Algorithm | When |
@@ -1677,6 +1787,8 @@ public static class TopologicalSortAlgorithm
 - **Floyd-Warshall:** Computes shortest paths between every pair of vertices using dynamic programming, trading O(V³) time for a simple all-pairs solution.
 
 **Dijkstra template (`PriorityQueue<TElement, TPriority>`):**
+
+With a binary heap, **time is O((V + E) log V)** and **space is O(V + E)** including the graph.
 
 ```csharp
 public static class DijkstraShortestPath
@@ -1753,11 +1865,15 @@ var distances =
 
 ### 7.5 Union-Find (Disjoint Set Union)
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Union-Find efficiently tracks which items belong to the same connected group while groups are being merged. It avoids rerunning a complete graph traversal after every new connection, making it useful for dynamic connectivity and Kruskal's minimum spanning tree algorithm.
 
 **Use when:** Connected components, Kruskal's MST, "are u and v in same group?"
 
 **Kruskal's minimum spanning tree:** Sorts edges by weight and adds the cheapest edge that does not create a cycle. It solves the problem of connecting every vertex with minimum total edge cost, while Union-Find performs the cycle checks efficiently.
+
+Union-Find operations are effectively O(1) amortized (`O(α(n))`) with path compression and union by rank; storage is O(n).
 
 ```csharp
 public sealed class UnionFind
@@ -1879,6 +1995,12 @@ public static class KruskalMinimumSpanningTree
 
 ### 8.1 Top K Frequent Elements
 
+[↑ Content](#content)
+
+**Why it exists / problem it solves:** A bounded min-heap keeps only the most frequent candidates instead of sorting every distinct value.
+
+**Time:** O(n + u log k), where `u` is the distinct-value count. **Space:** O(u + k).
+
 ```csharp
 public static class TopKFrequentAlgorithm
 {
@@ -1921,6 +2043,8 @@ public static class TopKFrequentAlgorithm
 
 ### 8.2 K-th Largest with a Bounded Heap
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** A min-heap of size `k` keeps only the `k` largest values seen so far. Its root is therefore the k-th largest value, avoiding a full sort.
 
 **Time:** O(n log k). **Space:** O(k).
@@ -1959,14 +2083,18 @@ public static class KthLargestHeapAlgorithm
 
 ### 9.1 Basic Techniques
 
+[↑ Content](#content)
+
 String algorithms exist because repeatedly comparing characters can become expensive, especially for long text or many queries. Each technique exploits a different property of the problem:
 
-- <a id="string-frequency-counting"></a>**Frequency arrays / hash maps:** Count characters so anagrams, duplicates, and character requirements can be checked without repeatedly scanning both strings.
-- <a id="string-two-pointers"></a>**Two pointers on strings:** Compare or transform characters from two positions, which solves palindrome checks, subsequence matching, and in-place-style scans efficiently.
+- **Frequency arrays / hash maps:** Count characters so anagrams, duplicates, and character requirements can be checked without repeatedly scanning both strings.
+- **Two pointers on strings:** Compare or transform characters from two positions, which solves palindrome checks, subsequence matching, and in-place-style scans efficiently.
 - <a id="rolling-hash--rabin-karp"></a>**Rolling hash (Rabin-Karp idea):** Updates a substring's hash as the window moves, allowing candidate pattern matches to be found without comparing every character at every position.
 - <a id="prefix-function--kmp"></a>**Prefix function / KMP:** Reuses information from earlier partial matches so substring search does not restart from the next text character after a mismatch.
 
 ### 9.2 Anagram with Frequency Counting
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Two strings are anagrams when every character occurs the same number of times. Counting avoids sorting and makes the comparison linear.
 
@@ -2008,6 +2136,8 @@ public static class AnagramAlgorithm
 
 ### 9.3 Palindrome with Two Pointers
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Comparing characters from both ends verifies symmetry without creating a reversed copy. This version ignores punctuation and letter case.
 
 **Time:** O(n). **Space:** O(1).
@@ -2048,6 +2178,8 @@ public static class PalindromeAlgorithm
 
 ### 9.4 Common Problems
 
+[↑ Content](#content)
+
 | Problem type | Approach |
 |--------------|----------|
 | Anagram | Sort or frequency count |
@@ -2057,7 +2189,11 @@ public static class PalindromeAlgorithm
 
 ### 9.5 Trie (Prefix Tree)
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** A Trie stores strings by shared prefixes, so lookup time depends on the word length rather than the number of stored words. It is designed for prefix queries such as autocomplete, dictionaries, and spell-checking.
+
+Insert, exact search, and prefix search take **O(m) time**, where `m` is the input length. Storage is proportional to the total number of stored characters.
 
 ```csharp
 public sealed class Trie
@@ -2142,13 +2278,17 @@ These algorithms solve recurring problems substantially faster or with less memo
 
 | Algorithm | Why it exists / problem it solves |
 |-----------|------------------------------------|
-| <a id="kadanes-algorithm"></a>**Kadane's** | Finds the maximum sum of a contiguous subarray in O(n), avoiding enumeration of every possible subarray. |
-| <a id="floyds-cycle-detection"></a>**Floyd's cycle detection** | Detects a cycle in a linked structure using two moving pointers and O(1) extra space, avoiding a visited set. |
-| <a id="fast-exponentiation"></a>**Fast exponentiation** | Computes `aⁿ` in O(log n) multiplications by repeatedly squaring, instead of multiplying `a` exactly `n` times. |
-| <a id="euclidean-gcd"></a>**GCD (Euclidean)** | Finds the greatest common divisor by repeatedly replacing a pair with the divisor and remainder, supporting fraction reduction and divisibility problems efficiently. |
-| <a id="sieve-of-eratosthenes"></a>**Sieve of Eratosthenes** | Finds all primes up to `n` together by marking composite multiples, avoiding a separate primality test for every number. |
+| **Kadane's** | Finds the maximum sum of a contiguous subarray in O(n), avoiding enumeration of every possible subarray. |
+| **Floyd's cycle detection** | Detects a cycle in a linked structure using two moving pointers and O(1) extra space, avoiding a visited set. |
+| **Fast exponentiation** | Computes `aⁿ` in O(log n) multiplications by repeatedly squaring, instead of multiplying `a` exactly `n` times. |
+| **GCD (Euclidean)** | Finds the greatest common divisor by repeatedly replacing a pair with the divisor and remainder, supporting fraction reduction and divisibility problems efficiently. |
+| **Sieve of Eratosthenes** | Finds all primes up to `n` together by marking composite multiples, avoiding a separate primality test for every number. |
 
 ### 10.1 Kadane's Algorithm
+
+[↑ Content](#content)
+
+**Time:** O(n). **Space:** O(1).
 
 ```csharp
 public static class KadanesAlgorithm
@@ -2181,9 +2321,13 @@ public static class KadanesAlgorithm
 
 ### 10.2 Floyd's Cycle Detection
 
+[↑ Content](#content)
+
 Floyd's fast/slow-pointer algorithm detects a cycle in O(n) time and O(1) space. The canonical, copy-ready implementation is in [Part 11.3: Floyd's Cycle Detection](#113-floyds-cycle-detection), where the linked-list node model is defined.
 
 ### 10.3 Fast Exponentiation
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Repeated squaring reduces exponentiation from O(exponent) multiplications to O(log exponent). It is useful for large powers and modular arithmetic.
 
@@ -2219,6 +2363,8 @@ public static class FastExponentiationAlgorithm
 
 ### 10.4 Euclidean GCD and LCM
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** The Euclidean algorithm finds a greatest common divisor without factoring either number. GCD and LCM support ratios, fractions, periodic schedules, and divisibility checks.
 
 **Time:** O(log(min(a, b))). **Space:** O(1).
@@ -2226,32 +2372,42 @@ public static class FastExponentiationAlgorithm
 ```csharp
 public static class GreatestCommonDivisorAlgorithm
 {
-    public static long Gcd(long first, long second)
+    public static ulong Gcd(long first, long second)
     {
-        first = Math.Abs(first);
-        second = Math.Abs(second);
+        ulong left = Magnitude(first);
+        ulong right = Magnitude(second);
 
-        while (second != 0)
+        while (right != 0)
         {
-            (first, second) = (second, first % second);
+            (left, right) = (right, left % right);
         }
 
-        return first;
+        return left;
     }
 
-    public static long Lcm(long first, long second)
+    public static ulong Lcm(long first, long second)
     {
-        if (first == 0 || second == 0)
+        ulong left = Magnitude(first);
+        ulong right = Magnitude(second);
+
+        if (left == 0 || right == 0)
             return 0;
 
-        return checked(Math.Abs(first / Gcd(first, second) * second));
+        return checked(left / Gcd(first, second) * right);
     }
+
+    private static ulong Magnitude(long value)
+        => value >= 0
+            ? (ulong)value
+            : (ulong)(-(value + 1)) + 1;
 }
 ```
 
-**Example:** `long gcd = GreatestCommonDivisorAlgorithm.Gcd(54, 24); // 6`
+**Example:** `ulong gcd = GreatestCommonDivisorAlgorithm.Gcd(54, 24); // 6`
 
 ### 10.5 Sieve of Eratosthenes
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Testing every number independently repeats divisibility work. The sieve marks multiples in one shared pass to generate all primes up to a limit.
 
@@ -2294,6 +2450,8 @@ public static class SieveOfEratosthenesAlgorithm
 **Example:** `int[] primes = SieveOfEratosthenesAlgorithm.FindPrimes(10); // [2, 3, 5, 7]`
 
 ### 10.6 Prefix Sums
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** A prefix-sum array performs one preprocessing pass so repeated range-sum queries can be answered without rescanning each range.
 
@@ -2353,6 +2511,8 @@ public sealed class ListNode
 
 ### 11.1 Reverse a Singly Linked List
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Reversal changes link direction without allocating another list. The same pointer-rewiring technique appears in list transformations and in-place data processing.
 
 **Time:** O(n). **Space:** O(1).
@@ -2382,6 +2542,8 @@ public static class ReverseLinkedListAlgorithm
 
 ### 11.2 Find the Middle Node
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** A fast pointer moving twice as quickly as a slow pointer locates the middle in one pass without first counting nodes.
 
 **Time:** O(n). **Space:** O(1).
@@ -2408,6 +2570,8 @@ public static class MiddleLinkedListNodeAlgorithm
 **Example:** `ListNode? middle = MiddleLinkedListNodeAlgorithm.Find(head);`
 
 ### 11.3 Floyd's Cycle Detection
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** A slow and fast pointer must eventually meet if a linked list contains a cycle. This detects cycles without the O(n) memory required by a visited set.
 
@@ -2446,6 +2610,8 @@ bool hasCycle = LinkedListCycleAlgorithm.HasCycle(first); // true
 ```
 
 ### 11.4 Merge Two Sorted Linked Lists
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Merging combines two ordered streams without sorting them again. It is the central combine step of Merge Sort for linked lists.
 
@@ -2491,6 +2657,8 @@ Dynamic programming solves problems with overlapping subproblems by storing earl
 
 ### 12.1 Climbing Stairs
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** This is the smallest useful DP model: the number of ways to reach a step depends on the two preceding steps. It teaches state transitions and space optimization.
 
 **Time:** O(n). **Space:** O(1).
@@ -2524,6 +2692,8 @@ public static class ClimbingStairsAlgorithm
 **Example:** `long ways = ClimbingStairsAlgorithm.CountWays(5); // 8`
 
 ### 12.2 Coin Change
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Coin Change finds the fewest reusable choices needed to reach a target. It models resource allocation, denomination, and minimum-step problems.
 
@@ -2567,6 +2737,8 @@ public static class CoinChangeAlgorithm
 
 ### 12.3 Longest Common Subsequence
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** LCS finds the longest ordered sequence shared by two inputs even when characters are skipped. It underpins diff tools, sequence comparison, and version analysis.
 
 **Time:** O(n × m). **Space:** O(n × m).
@@ -2602,6 +2774,8 @@ public static class LongestCommonSubsequenceAlgorithm
 **Example:** `int length = LongestCommonSubsequenceAlgorithm.FindLength("abcde", "ace"); // 3`
 
 ### 12.4 Edit Distance
+
+[↑ Content](#content)
 
 **Why it exists / problem it solves:** Edit Distance measures how many insertions, deletions, and replacements transform one string into another. It supports fuzzy matching, spell checking, and similarity scoring.
 
@@ -2658,6 +2832,8 @@ Greedy algorithms commit to the best local choice when the problem structure gua
 
 ### 13.1 Merge Intervals
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Overlapping ranges often represent the same continuous reservation, event, or coverage period. Sorting by start time makes every possible overlap adjacent.
 
 **Time:** O(n log n). **Space:** O(n).
@@ -2671,6 +2847,8 @@ public static class MergeIntervalsAlgorithm
 
         if (intervals.Any(interval => interval is null || interval.Length != 2))
             throw new ArgumentException("Every interval must contain start and end.");
+        if (intervals.Any(interval => interval[0] > interval[1]))
+            throw new ArgumentException("An interval start must not exceed its end.");
         if (intervals.Length == 0)
             return [];
 
@@ -2701,6 +2879,8 @@ public static class MergeIntervalsAlgorithm
 
 ### 13.2 Activity Selection
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Selecting the activity that finishes earliest leaves the most room for future activities. This maximizes the number of non-overlapping intervals.
 
 **Time:** O(n log n). **Space:** O(n).
@@ -2713,7 +2893,11 @@ public static class ActivitySelectionAlgorithm
     {
         ArgumentNullException.ThrowIfNull(activities);
 
-        var ordered = activities.OrderBy(activity => activity.End).ToArray();
+        var ordered = activities.ToArray();
+        if (ordered.Any(activity => activity.Start > activity.End))
+            throw new ArgumentException("An activity start must not exceed its end.");
+
+        ordered = ordered.OrderBy(activity => activity.End).ToArray();
         var selected = new List<(int Start, int End)>();
         int lastEnd = int.MinValue;
 
@@ -2741,9 +2925,13 @@ Backtracking explores a decision tree with a reusable cycle: choose, explore, th
 
 ### 14.1 Subsets
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Subset generation must represent every include/exclude choice. Backtracking builds each result incrementally without manually writing nested loops.
 
 **Time:** O(n × 2ⁿ), including copied output. **Space:** O(n) recursion depth, excluding results.
+
+The example assumes the input values are distinct.
 
 ```csharp
 public static class SubsetsAlgorithm
@@ -2776,9 +2964,13 @@ public static class SubsetsAlgorithm
 
 ### 14.2 Permutations
 
+[↑ Content](#content)
+
 **Why it exists / problem it solves:** Permutation generation explores every possible ordering while tracking which values are already used in the current ordering.
 
 **Time:** O(n × n!). **Space:** O(n) recursion state, excluding results.
+
+The example assumes the input values are distinct.
 
 ```csharp
 public static class PermutationsAlgorithm
