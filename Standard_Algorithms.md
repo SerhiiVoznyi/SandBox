@@ -2,7 +2,7 @@
 
 A consolidated reference from our conversation: developer role requirements explained, plus a full study plan for **Standard Algorithms**.
 
-All code examples use **C# / .NET 10**.
+All code examples use **C# 12 / .NET 8** with implicit global usings enabled.
 
 ---
 
@@ -11,15 +11,50 @@ All code examples use **C# / .NET 10**.
 1. [Developer Role Requirements Explained](#developer-role-requirements-explained)
 2. [How to Use This Guide](#how-to-use-this-guide)
 3. [Part 1: Searching Algorithms](#part-1-searching-algorithms)
+   - [Linear Search](#11-linear-search)
+   - [Binary Search](#12-binary-search)
 4. [Part 2: Sorting Algorithms](#part-2-sorting-algorithms)
+   - [Bubble Sort](#bubble-sort)
+   - [Selection Sort](#selection-sort)
+   - [Insertion Sort](#insertion-sort)
+   - [Merge Sort](#21-merge-sort-must-know)
+   - [Quick Sort](#22-quick-sort-must-know)
+   - [Heap Sort](#heap-sort)
+   - [Counting Sort](#counting-sort)
+   - [Radix Sort](#radix-sort)
+   - [Built-in Sort and Dutch National Flag](#23-built-in-sort-in-interviews)
 5. [Part 3: Two Pointers & Sliding Window](#part-3-two-pointers--sliding-window)
+   - [Two Pointers](#31-two-pointers)
+   - [Sliding Window](#32-sliding-window)
 6. [Part 4: Hash-Based Algorithms](#part-4-hash-based-algorithms)
+   - [Hash Map and Unsorted Two Sum](#unsorted-two-sum)
 7. [Part 5: Stack & Queue Algorithms](#part-5-stack--queue-algorithms)
+   - [Stack and Parentheses Validation](#51-stack-lifo)
+   - [Queue, Deque, and Level-Order Traversal](#52-queue--deque-fifo)
 8. [Part 6: Tree Algorithms](#part-6-tree-algorithms)
+   - [Tree Traversals](#61-traversals-must-know)
+   - [Binary Search Tree Operations](#62-bst-operations)
 9. [Part 7: Graph Algorithms](#part-7-graph-algorithms)
+   - [Breadth-First Search (BFS)](#71-bfs-breadth-first-search)
+   - [Depth-First Search (DFS)](#72-dfs-depth-first-search)
+   - [Topological Sort](#73-topological-sort)
+   - [Shortest Paths: BFS, Dijkstra, Bellman-Ford, Floyd-Warshall](#74-shortest-path)
+   - [Union-Find / Disjoint Set Union](#75-union-find-disjoint-set-union)
 10. [Part 8: Heap / Priority Queue](#part-8-heap--priority-queue)
+    - [Top K Frequent Elements](#top-k-frequent-elements)
 11. [Part 9: String Algorithms](#part-9-string-algorithms)
+    - [Frequency Counting](#string-frequency-counting)
+    - [Two Pointers on Strings](#string-two-pointers)
+    - [Rolling Hash / Rabin-Karp](#rolling-hash--rabin-karp)
+    - [Prefix Function / KMP](#prefix-function--kmp)
+    - [Trie](#trie-prefix-tree)
+    - [Common String Problems](#92-common-problems)
 12. [Part 10: Classic Misc Algorithms](#part-10-classic-misc-algorithms)
+    - [Kadane's Algorithm](#kadanes-algorithm)
+    - [Floyd's Cycle Detection](#floyds-cycle-detection)
+    - [Fast Exponentiation](#fast-exponentiation)
+    - [Euclidean GCD](#euclidean-gcd)
+    - [Sieve of Eratosthenes](#sieve-of-eratosthenes)
 13. [Pattern Recognition Cheat Sheet](#pattern-recognition-cheat-sheet)
 14. [8-Week Study Plan](#8-week-study-plan)
 15. [Practice Platforms](#practice-platforms)
@@ -83,15 +118,15 @@ Typical categories:
 
 **Reusable strategies** for approaching unfamiliar problems — a mental toolkit, not a single algorithm.
 
-| Paradigm | Idea | Example use |
-|----------|------|-------------|
-| **Brute force** | Try all possibilities | Small inputs, baseline solution |
-| **Greedy** | Make the locally best choice each step | Interval scheduling, Huffman coding |
-| **Divide and conquer** | Split problem, solve pieces, combine | Merge sort, fast exponentiation |
-| **Dynamic programming** | Break into overlapping subproblems + cache results | Knapsack, longest common subsequence |
-| **Backtracking** | Explore choices, undo when stuck | Sudoku, permutations/combinations |
-| **Two pointers / sliding window** | Efficient scanning patterns | Subarray problems, string windows |
-| **Recursion** | Solve via smaller instances of same problem | Tree traversal, divide-and-conquer |
+| Paradigm | Why it exists / problem it solves | Example use |
+|----------|------------------------------------|-------------|
+| **Brute force** | Tries every possibility; provides a simple correctness baseline and works when the search space is small | Small inputs, baseline solution |
+| **Greedy** | Makes the locally best choice when that choice can be proven to produce a global optimum | Interval scheduling, Huffman coding |
+| **Divide and conquer** | Splits a large problem into independent smaller problems that can be solved and combined efficiently | Merge sort, fast exponentiation |
+| **Dynamic programming** | Avoids recomputing overlapping subproblems by storing their results | Knapsack, longest common subsequence |
+| **Backtracking** | Explores a choice tree and abandons partial solutions as soon as they cannot succeed | Sudoku, permutations/combinations |
+| **Two pointers / sliding window** | Reuses positions or range state to avoid repeatedly scanning the same elements | Subarray problems, string windows |
+| **Recursion** | Expresses naturally hierarchical problems as smaller instances of the same problem | Tree traversal, divide-and-conquer |
 
 **Why employers care:** Strong developers do not memorize every problem — they **recognize patterns** and pick the right approach.
 
@@ -122,12 +157,13 @@ They usually **do not** expect expert-level competitive programming for entry-le
 
 ## How to Use This Guide
 
-**For each algorithm, learn four things:**
+**For each algorithm, learn five things:**
 
 1. **What it does** (one sentence)
-2. **Time/space complexity** (Big O)
-3. **When to use it** (pattern recognition)
-4. **How to implement it** (simple version in C#)
+2. **Why it exists and what problem it solves** (motivation)
+3. **Time/space complexity** (Big O)
+4. **When to use it** (pattern recognition)
+5. **How to implement it** (simple version in C#)
 
 **Suggested pace:** 2–3 algorithms per week + 5–10 practice problems per week.
 
@@ -137,6 +173,8 @@ They usually **do not** expect expert-level competitive programming for entry-le
 
 ### 1.1 Linear Search
 
+**Why it exists / problem it solves:** Linear search provides the simplest way to locate a value when the data has no useful ordering or index. It examines elements one at a time, so it works on almost any collection without preprocessing.
+
 | | |
 |---|---|
 | **Idea** | Check every element until you find the target or reach the end |
@@ -145,22 +183,32 @@ They usually **do not** expect expert-level competitive programming for entry-le
 | **Use when** | List is unsorted, small data, or you only search once |
 
 ```csharp
-static int LinearSearch(int[] arr, int target)
+public static class LinearSearchAlgorithm
 {
-    for (int i = 0; i < arr.Length; i++)
+    public static int FindIndex(int[] numbers, int target)
     {
-        if (arr[i] == target)
-            return i;
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        for (int index = 0; index < numbers.Length; index++)
+        {
+            if (numbers[index] == target)
+                return index;
+        }
+
+        return -1;
     }
-    return -1;
 }
 ```
+
+**Example:** `int index = LinearSearchAlgorithm.FindIndex([4, 7, 2], target: 7); // 1`
 
 **Practice:** Find first/last occurrence, count occurrences, search in 2D matrix (row-wise).
 
 ---
 
 ### 1.2 Binary Search
+
+**Why it exists / problem it solves:** Linear search becomes expensive on large collections. Binary search takes advantage of sorted data—or any monotonic condition—to discard half of the remaining possibilities after every comparison.
 
 | | |
 |---|---|
@@ -170,36 +218,144 @@ static int LinearSearch(int[] arr, int target)
 | **Use when** | Data is sorted, or you can define a monotonic "yes/no" predicate |
 
 ```csharp
-static int BinarySearch(int[] arr, int target)
+public static class BinarySearchAlgorithm
 {
-    int lo = 0, hi = arr.Length - 1;
-    while (lo <= hi)
+    public static int FindIndex(int[] sortedNumbers, int target)
     {
-        int mid = lo + (hi - lo) / 2; // avoids integer overflow
-        if (arr[mid] == target)
-            return mid;
-        if (arr[mid] < target)
-            lo = mid + 1;
-        else
-            hi = mid - 1;
+        ArgumentNullException.ThrowIfNull(sortedNumbers);
+
+        int leftIndex = 0;
+        int rightIndex = sortedNumbers.Length - 1;
+
+        while (leftIndex <= rightIndex)
+        {
+            int middleIndex = leftIndex + (rightIndex - leftIndex) / 2;
+            int middleValue = sortedNumbers[middleIndex];
+
+            if (middleValue == target)
+                return middleIndex;
+
+            if (middleValue < target)
+                leftIndex = middleIndex + 1;
+            else
+                rightIndex = middleIndex - 1;
+        }
+
+        return -1;
     }
-    return -1;
 }
 ```
 
+**Example:** `int index = BinarySearchAlgorithm.FindIndex([1, 3, 5, 8], target: 5); // 2`
+
 **Variants to learn:**
 
-- Find first index where `arr[i] >= target` (lower bound)
-- Find last index where `arr[i] <= target` (upper bound)
-- Search on answer space: "smallest x such that condition(x) is true"
+- **Lower bound:** Finds the first index where `arr[i] >= target`. It solves insertion-point and range-start questions without a linear scan.
+- **Upper bound:** Finds the boundary after the target range (or, by a related implementation, the last index where `arr[i] <= target`). It helps count occurrences and locate range ends in sorted data.
+- **Search on answer space:** Finds the smallest or largest value satisfying a monotonic condition. It solves optimization questions such as the minimum capacity, speed, or number of days needed.
 
 **Practice:** Search in rotated sorted array, find peak element, sqrt via binary search, "Koko eating bananas" style problems.
+
+### 1.3 Binary Search Variants
+
+**Why they exist / problem they solve:** Many sorted-data problems need a boundary or the smallest feasible answer rather than an exact match. These variants preserve O(log n) search by discarding half of the remaining candidates each step.
+
+| Method | Result |
+|--------|--------|
+| Lower bound | First index whose value is at least the target |
+| Upper bound | First index whose value is greater than the target |
+| First true | Smallest integer satisfying a monotonic predicate |
+
+**Time:** O(log n). **Space:** O(1).
+
+```csharp
+public static class BinarySearchVariants
+{
+    public static int LowerBound(int[] sortedNumbers, int target)
+    {
+        ArgumentNullException.ThrowIfNull(sortedNumbers);
+
+        int left = 0;
+        int right = sortedNumbers.Length;
+
+        while (left < right)
+        {
+            int middle = left + (right - left) / 2;
+            if (sortedNumbers[middle] < target)
+                left = middle + 1;
+            else
+                right = middle;
+        }
+
+        return left;
+    }
+
+    public static int UpperBound(int[] sortedNumbers, int target)
+    {
+        ArgumentNullException.ThrowIfNull(sortedNumbers);
+
+        int left = 0;
+        int right = sortedNumbers.Length;
+
+        while (left < right)
+        {
+            int middle = left + (right - left) / 2;
+            if (sortedNumbers[middle] <= target)
+                left = middle + 1;
+            else
+                right = middle;
+        }
+
+        return left;
+    }
+
+    public static int FirstTrue(
+        int minimum,
+        int maximum,
+        Func<int, bool> condition)
+    {
+        ArgumentNullException.ThrowIfNull(condition);
+
+        while (minimum < maximum)
+        {
+            int middle = minimum + (maximum - minimum) / 2;
+            if (condition(middle))
+                maximum = middle;
+            else
+                minimum = middle + 1;
+        }
+
+        return minimum;
+    }
+}
+```
+
+**Example:**
+
+```csharp
+int[] numbers = [1, 2, 2, 2, 5];
+int firstTwo = BinarySearchVariants.LowerBound(numbers, 2); // 1
+int afterTwos = BinarySearchVariants.UpperBound(numbers, 2); // 4
+int firstSquareAtLeast30 =
+    BinarySearchVariants.FirstTrue(0, 30, value => value * value >= 30); // 6
+```
 
 ---
 
 ## Part 2: Sorting Algorithms
 
 Know **what each does**, **complexity**, and **stability** (stable = equal elements keep original order).
+
+Sorting algorithms exist to put data into a predictable order so that later operations—such as searching, grouping, comparing, and detecting duplicates—become easier or faster. No single sorting algorithm is best for every situation:
+
+- <a id="bubble-sort"></a>**Bubble Sort:** Repeatedly swaps adjacent out-of-order values. It mainly exists as a teaching tool and can be acceptable for tiny inputs.
+- <a id="selection-sort"></a>**Selection Sort:** Repeatedly selects the smallest remaining value. It is useful when minimizing the number of writes or swaps matters more than comparisons.
+- <a id="insertion-sort"></a>**Insertion Sort:** Inserts each value into an already-sorted prefix. It solves small or nearly sorted inputs efficiently and is often used inside hybrid sorting algorithms.
+- **Merge Sort:** Splits data, sorts each half, and merges the results. It provides predictable O(n log n) performance and stable ordering.
+- **Quick Sort:** Partitions values around a pivot. It is designed for fast, in-place, general-purpose sorting with good average performance.
+- <a id="heap-sort"></a>**Heap Sort:** Uses a heap to repeatedly select the next largest or smallest value. It provides O(n log n) worst-case time while sorting in place.
+- <a id="counting-sort"></a>**Counting Sort:** Counts occurrences of each value instead of comparing values. It solves sorting efficiently when integers come from a small, known range.
+- <a id="radix-sort"></a>**Radix Sort:** Sorts values one digit or character position at a time. It avoids direct comparisons for fixed-width numbers or strings.
 
 | Algorithm | Best | Average | Worst | Space | Stable? | Notes |
 |-----------|------|---------|-------|-------|---------|-------|
@@ -214,36 +370,68 @@ Know **what each does**, **complexity**, and **stability** (stable = equal eleme
 
 ### 2.1 Merge Sort (must know)
 
+**Why it exists / problem it solves:** Merge Sort is used when predictable performance and stability matter. By dividing the input into small pieces and merging them in order, it guarantees O(n log n) time even when the original data is already sorted or arranged unfavorably.
+
 ```csharp
-static int[] MergeSort(int[] arr)
+public static class MergeSortAlgorithm
 {
-    if (arr.Length <= 1)
-        return arr;
-
-    int mid = arr.Length / 2;
-    int[] left = MergeSort(arr[..mid]);
-    int[] right = MergeSort(arr[mid..]);
-    return Merge(left, right);
-}
-
-static int[] Merge(int[] left, int[] right)
-{
-    var result = new List<int>(left.Length + right.Length);
-    int i = 0, j = 0;
-
-    while (i < left.Length && j < right.Length)
+    public static int[] Sort(int[] numbers)
     {
-        if (left[i] <= right[j])
-            result.Add(left[i++]);
-        else
-            result.Add(right[j++]);
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        int[] sortedNumbers = (int[])numbers.Clone();
+        int[] temporary = new int[sortedNumbers.Length];
+        SortRange(sortedNumbers, temporary, 0, sortedNumbers.Length - 1);
+        return sortedNumbers;
     }
 
-    while (i < left.Length) result.Add(left[i++]);
-    while (j < right.Length) result.Add(right[j++]);
-    return [.. result];
+    private static void SortRange(
+        int[] numbers,
+        int[] temporary,
+        int leftIndex,
+        int rightIndex)
+    {
+        if (leftIndex >= rightIndex)
+            return;
+
+        int middleIndex = leftIndex + (rightIndex - leftIndex) / 2;
+        SortRange(numbers, temporary, leftIndex, middleIndex);
+        SortRange(numbers, temporary, middleIndex + 1, rightIndex);
+        Merge(numbers, temporary, leftIndex, middleIndex, rightIndex);
+    }
+
+    private static void Merge(
+        int[] numbers,
+        int[] temporary,
+        int leftIndex,
+        int middleIndex,
+        int rightIndex)
+    {
+        int leftCursor = leftIndex;
+        int rightCursor = middleIndex + 1;
+        int destination = leftIndex;
+
+        while (leftCursor <= middleIndex && rightCursor <= rightIndex)
+        {
+            temporary[destination++] =
+                numbers[leftCursor] <= numbers[rightCursor]
+                    ? numbers[leftCursor++]
+                    : numbers[rightCursor++];
+        }
+
+        while (leftCursor <= middleIndex)
+            temporary[destination++] = numbers[leftCursor++];
+
+        while (rightCursor <= rightIndex)
+            temporary[destination++] = numbers[rightCursor++];
+
+        for (int index = leftIndex; index <= rightIndex; index++)
+            numbers[index] = temporary[index];
+    }
 }
 ```
+
+**Example:** `int[] sorted = MergeSortAlgorithm.Sort([5, 2, 8, 1]); // [1, 2, 5, 8]`
 
 **Use when:** Guaranteed O(n log n), external sorting, inversion count problems.
 
@@ -251,33 +439,58 @@ static int[] Merge(int[] left, int[] right)
 
 ### 2.2 Quick Sort (must know)
 
+**Why it exists / problem it solves:** Quick Sort provides a fast general-purpose sort that usually needs little extra memory. Partitioning places one pivot in its final position and separates smaller values from larger ones, turning one large sorting problem into two smaller ones.
+
 ```csharp
-static void QuickSort(int[] arr, int lo, int hi)
+public static class QuickSortAlgorithm
 {
-    if (lo >= hi) return;
-
-    int p = Partition(arr, lo, hi);
-    QuickSort(arr, lo, p - 1);
-    QuickSort(arr, p + 1, hi);
-}
-
-static int Partition(int[] arr, int lo, int hi)
-{
-    int pivot = arr[hi];
-    int i = lo;
-
-    for (int j = lo; j < hi; j++)
+    public static void Sort(int[] numbers)
     {
-        if (arr[j] <= pivot)
-        {
-            (arr[i], arr[j]) = (arr[j], arr[i]);
-            i++;
-        }
+        ArgumentNullException.ThrowIfNull(numbers);
+        SortRange(numbers, 0, numbers.Length - 1);
     }
 
-    (arr[i], arr[hi]) = (arr[hi], arr[i]);
-    return i;
+    private static void SortRange(int[] numbers, int leftIndex, int rightIndex)
+    {
+        if (leftIndex >= rightIndex)
+            return;
+
+        int pivotFinalIndex = Partition(numbers, leftIndex, rightIndex);
+        SortRange(numbers, leftIndex, pivotFinalIndex - 1);
+        SortRange(numbers, pivotFinalIndex + 1, rightIndex);
+    }
+
+    private static int Partition(int[] numbers, int leftIndex, int rightIndex)
+    {
+        int pivotValue = numbers[rightIndex];
+        int nextSmallerValueIndex = leftIndex;
+
+        for (int currentIndex = leftIndex; currentIndex < rightIndex; currentIndex++)
+        {
+            if (numbers[currentIndex] <= pivotValue)
+            {
+                Swap(numbers, nextSmallerValueIndex, currentIndex);
+                nextSmallerValueIndex++;
+            }
+        }
+
+        Swap(numbers, nextSmallerValueIndex, rightIndex);
+        return nextSmallerValueIndex;
+    }
+
+    private static void Swap(int[] numbers, int firstIndex, int secondIndex)
+    {
+        (numbers[firstIndex], numbers[secondIndex]) =
+            (numbers[secondIndex], numbers[firstIndex]);
+    }
 }
+```
+
+**Example:**
+
+```csharp
+int[] numbers = [5, 2, 8, 1];
+QuickSortAlgorithm.Sort(numbers); // numbers is now [1, 2, 5, 8]
 ```
 
 **Use when:** In-memory general sorting; know pivot choice affects worst case.
@@ -288,7 +501,196 @@ static int Partition(int[] arr, int lo, int hi)
 
 In real coding interviews, use built-in sorting (`Array.Sort()`, `List<T>.Sort()`, or LINQ `OrderBy()`) unless asked to implement. Still know **why** it is roughly O(n log n) and when stability matters.
 
+**Dutch National Flag:** This three-pointer partitioning algorithm exists to group three categories in one O(n) pass and O(1) extra space instead of performing a full sort. It solves problems such as Sort Colors and is also the basis of three-way Quick Sort partitioning.
+
 **Practice:** Sort colors (Dutch flag), merge intervals, largest number from array, k-th largest element.
+
+### 2.4 Insertion Sort
+
+**Why it exists / problem it solves:** Insertion Sort has very low overhead and adapts to data that is already almost sorted. It grows a sorted prefix by inserting each new value into its correct position.
+
+**Time:** O(n) best case, O(n²) average/worst case. **Space:** O(1). **Stable:** Yes.
+
+```csharp
+public static class InsertionSortAlgorithm
+{
+    public static void Sort(int[] numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        for (int index = 1; index < numbers.Length; index++)
+        {
+            int valueToInsert = numbers[index];
+            int position = index - 1;
+
+            while (position >= 0 && numbers[position] > valueToInsert)
+            {
+                numbers[position + 1] = numbers[position];
+                position--;
+            }
+
+            numbers[position + 1] = valueToInsert;
+        }
+    }
+}
+```
+
+**Example:** `int[] values = [5, 2, 4, 3]; InsertionSortAlgorithm.Sort(values); // [2, 3, 4, 5]`
+
+### 2.5 Heap Sort
+
+**Why it exists / problem it solves:** Heap Sort guarantees O(n log n) time while sorting in place. A max-heap keeps the largest remaining value at the root so it can be moved to the end repeatedly.
+
+**Time:** O(n log n). **Space:** O(1). **Stable:** No.
+
+```csharp
+public static class HeapSortAlgorithm
+{
+    public static void Sort(int[] numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        for (int root = numbers.Length / 2 - 1; root >= 0; root--)
+            SiftDown(numbers, root, numbers.Length);
+
+        for (int end = numbers.Length - 1; end > 0; end--)
+        {
+            (numbers[0], numbers[end]) = (numbers[end], numbers[0]);
+            SiftDown(numbers, 0, end);
+        }
+    }
+
+    private static void SiftDown(int[] numbers, int root, int length)
+    {
+        while (true)
+        {
+            int largest = root;
+            int leftChild = root * 2 + 1;
+            int rightChild = leftChild + 1;
+
+            if (leftChild < length && numbers[leftChild] > numbers[largest])
+                largest = leftChild;
+
+            if (rightChild < length && numbers[rightChild] > numbers[largest])
+                largest = rightChild;
+
+            if (largest == root)
+                return;
+
+            (numbers[root], numbers[largest]) = (numbers[largest], numbers[root]);
+            root = largest;
+        }
+    }
+}
+```
+
+**Example:** `int[] values = [7, 2, 9, 1]; HeapSortAlgorithm.Sort(values); // [1, 2, 7, 9]`
+
+### 2.6 Dutch National Flag
+
+**Why it exists / problem it solves:** When values belong to exactly three groups, a full comparison sort performs unnecessary work. Three boundaries partition the array into low, middle, and high groups in one pass.
+
+**Time:** O(n). **Space:** O(1). **Use when:** Three-way classification or Quick Sort partitioning with many duplicates.
+
+```csharp
+public static class DutchNationalFlagAlgorithm
+{
+    public static void SortZeroOneTwo(int[] values)
+    {
+        ArgumentNullException.ThrowIfNull(values);
+
+        int nextZero = 0;
+        int current = 0;
+        int nextTwo = values.Length - 1;
+
+        while (current <= nextTwo)
+        {
+            switch (values[current])
+            {
+                case 0:
+                    (values[nextZero], values[current]) =
+                        (values[current], values[nextZero]);
+                    nextZero++;
+                    current++;
+                    break;
+                case 1:
+                    current++;
+                    break;
+                case 2:
+                    (values[current], values[nextTwo]) =
+                        (values[nextTwo], values[current]);
+                    nextTwo--;
+                    break;
+                default:
+                    throw new ArgumentException("Values must be 0, 1, or 2.");
+            }
+        }
+    }
+}
+```
+
+**Example:** `int[] colors = [2, 0, 1, 2, 0]; DutchNationalFlagAlgorithm.SortZeroOneTwo(colors); // [0, 0, 1, 2, 2]`
+
+### 2.7 Quickselect
+
+**Why it exists / problem it solves:** Quickselect finds an order statistic, such as the k-th largest value, without fully sorting the collection. Like Quick Sort, it partitions around a pivot but continues into only one side.
+
+**Time:** O(n) average, O(n²) worst case. **Space:** O(n) here because the input is copied.
+
+```csharp
+public static class QuickselectAlgorithm
+{
+    public static int FindKthLargest(int[] numbers, int k)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        if (k < 1 || k > numbers.Length)
+            throw new ArgumentOutOfRangeException(nameof(k));
+
+        int[] working = (int[])numbers.Clone();
+        int targetIndex = working.Length - k;
+        int left = 0;
+        int right = working.Length - 1;
+
+        while (left <= right)
+        {
+            int pivotIndex = Partition(working, left, right);
+
+            if (pivotIndex == targetIndex)
+                return working[pivotIndex];
+
+            if (pivotIndex < targetIndex)
+                left = pivotIndex + 1;
+            else
+                right = pivotIndex - 1;
+        }
+
+        throw new InvalidOperationException("The target index was not found.");
+    }
+
+    private static int Partition(int[] values, int left, int right)
+    {
+        int pivot = values[right];
+        int destination = left;
+
+        for (int current = left; current < right; current++)
+        {
+            if (values[current] <= pivot)
+            {
+                (values[destination], values[current]) =
+                    (values[current], values[destination]);
+                destination++;
+            }
+        }
+
+        (values[destination], values[right]) =
+            (values[right], values[destination]);
+        return destination;
+    }
+}
+```
+
+**Example:** `int thirdLargest = QuickselectAlgorithm.FindKthLargest([3, 2, 1, 5, 6, 4], 3); // 4`
 
 ---
 
@@ -298,34 +700,51 @@ These are very common in interviews and production code.
 
 ### 3.1 Two Pointers
 
-| Pattern | Example |
-|---------|---------|
-| Opposite ends | Two sum in sorted array |
-| Same direction | Remove duplicates in-place |
-| Fast/slow | Cycle detection in linked list |
+**Why it exists / problem it solves:** Two pointers avoid repeatedly scanning the same collection when two positions can move according to a useful relationship. The technique commonly reduces pair, range, or in-place array problems from O(n²) to O(n).
+
+| Pattern | Problem it solves | Example |
+|---------|-------------------|---------|
+| Opposite ends | Narrows a sorted range using information from both boundaries | Two sum in sorted array |
+| Same direction | Reads and writes in one pass without allocating another collection | Remove duplicates in-place |
+| Fast/slow | Detects cycles or finds a midpoint with O(1) extra space | Cycle detection in linked list |
 
 ```csharp
-// Two Sum II - sorted array
-static int[] TwoSumSorted(int[] arr, int target)
+public static class SortedTwoSumAlgorithm
 {
-    int lo = 0, hi = arr.Length - 1;
-    while (lo < hi)
+    public static (int LeftIndex, int RightIndex)? FindPair(
+        int[] sortedNumbers,
+        int target)
     {
-        int sum = arr[lo] + arr[hi];
-        if (sum == target)
-            return [lo, hi];
-        if (sum < target)
-            lo++;
-        else
-            hi--;
+        ArgumentNullException.ThrowIfNull(sortedNumbers);
+
+        int leftIndex = 0;
+        int rightIndex = sortedNumbers.Length - 1;
+
+        while (leftIndex < rightIndex)
+        {
+            long sum = (long)sortedNumbers[leftIndex] + sortedNumbers[rightIndex];
+
+            if (sum == target)
+                return (leftIndex, rightIndex);
+
+            if (sum < target)
+                leftIndex++;
+            else
+                rightIndex--;
+        }
+
+        return null;
     }
-    return [];
 }
 ```
+
+**Example:** `var pair = SortedTwoSumAlgorithm.FindPair([1, 2, 4, 7], target: 6); // (1, 2)`
 
 ---
 
 ### 3.2 Sliding Window
+
+**Why it exists / problem it solves:** Recalculating every possible contiguous subarray or substring is often O(n²) or worse. A sliding window reuses information from the previous range while expanding or shrinking its boundaries, which often reduces the work to O(n).
 
 | | |
 |---|---|
@@ -334,51 +753,196 @@ static int[] TwoSumSorted(int[] arr, int target)
 | **Use when** | Contiguous subarray/substring with a constraint |
 
 ```csharp
-// Longest substring without repeating characters
-static int LengthOfLongestSubstring(string s)
+public static class LongestUniqueSubstringAlgorithm
 {
-    var seen = new Dictionary<char, int>();
-    int left = 0, best = 0;
-
-    for (int right = 0; right < s.Length; right++)
+    public static int FindLength(string text)
     {
-        char ch = s[right];
-        if (seen.TryGetValue(ch, out int prev) && prev >= left)
-            left = prev + 1;
+        ArgumentNullException.ThrowIfNull(text);
 
-        seen[ch] = right;
-        best = Math.Max(best, right - left + 1);
+        var lastSeenIndex = new Dictionary<char, int>();
+        int windowStart = 0;
+        int longestLength = 0;
+
+        for (int windowEnd = 0; windowEnd < text.Length; windowEnd++)
+        {
+            char currentCharacter = text[windowEnd];
+
+            if (lastSeenIndex.TryGetValue(currentCharacter, out int previousIndex)
+                && previousIndex >= windowStart)
+            {
+                windowStart = previousIndex + 1;
+            }
+
+            lastSeenIndex[currentCharacter] = windowEnd;
+            longestLength = Math.Max(
+                longestLength,
+                windowEnd - windowStart + 1);
+        }
+
+        return longestLength;
     }
-    return best;
 }
 ```
 
+**Example:** `int length = LongestUniqueSubstringAlgorithm.FindLength("abcabcbb"); // 3`
+
 **Practice:** Max sum subarray of size k, minimum window substring, longest repeating character replacement.
+
+### 3.3 Same-Direction Two Pointers
+
+**Why it exists / problem it solves:** A read pointer examines each value while a write pointer tracks where the next retained value belongs. This compacts arrays in place without allocating another collection.
+
+**Time:** O(n). **Space:** O(1).
+
+```csharp
+public static class RemoveDuplicatesFromSortedArray
+{
+    public static int Compact(int[] sortedNumbers)
+    {
+        ArgumentNullException.ThrowIfNull(sortedNumbers);
+
+        if (sortedNumbers.Length == 0)
+            return 0;
+
+        int uniqueCount = 1;
+
+        for (int readIndex = 1; readIndex < sortedNumbers.Length; readIndex++)
+        {
+            if (sortedNumbers[readIndex] == sortedNumbers[uniqueCount - 1])
+                continue;
+
+            sortedNumbers[uniqueCount] = sortedNumbers[readIndex];
+            uniqueCount++;
+        }
+
+        return uniqueCount;
+    }
+}
+```
+
+**Example:** `int[] values = [1, 1, 2, 3, 3]; int count = RemoveDuplicatesFromSortedArray.Compact(values); // first 3 values: [1, 2, 3]`
 
 ---
 
 ## Part 4: Hash-Based Algorithms
+
+### 4.1 Hash Map Fundamentals
+
+**Why they exist / problem they solve:** Hash-based algorithms provide fast lookup by key, avoiding a repeated scan through the collection. They trade additional memory for efficient membership tests, frequency counts, deduplication, and matching values such as complements in Two Sum.
 
 | | |
 |---|---|
 | **Idea** | Trade memory for O(1) average lookup |
 | **Use when** | Frequency counting, deduplication, "have we seen this?" |
 
+### 4.2 Unsorted Two Sum
+
+The hash-map version of **Two Sum** stores previously seen values so it can find each value's complement in O(1) average time. This reduces the pair search from O(n²) brute force to O(n) average time.
+
 ```csharp
-// Two Sum - unsorted
-static int[] TwoSum(int[] nums, int target)
+public static class UnsortedTwoSumAlgorithm
 {
-    var seen = new Dictionary<int, int>();
-    for (int i = 0; i < nums.Length; i++)
+    public static (int FirstIndex, int SecondIndex)? FindPair(
+        int[] numbers,
+        int target)
     {
-        int need = target - nums[i];
-        if (seen.TryGetValue(need, out int idx))
-            return [idx, i];
-        seen[nums[i]] = i;
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        var indexByValue = new Dictionary<int, int>();
+
+        for (int currentIndex = 0; currentIndex < numbers.Length; currentIndex++)
+        {
+            long requiredValue = (long)target - numbers[currentIndex];
+
+            if (requiredValue is >= int.MinValue and <= int.MaxValue
+                && indexByValue.TryGetValue((int)requiredValue, out int matchingIndex))
+            {
+                return (matchingIndex, currentIndex);
+            }
+
+            indexByValue[numbers[currentIndex]] = currentIndex;
+        }
+
+        return null;
     }
-    return [];
 }
 ```
+
+**Example:** `var pair = UnsortedTwoSumAlgorithm.FindPair([2, 7, 11, 15], target: 9); // (0, 1)`
+
+### 4.3 Frequency Counting and Deduplication
+
+**Why it exists / problem it solves:** Frequency maps answer “how many?” while hash sets answer “have we seen this?” Both replace repeated scans with O(1) average lookup.
+
+**Time:** O(n) average. **Space:** O(k) distinct values.
+
+```csharp
+public static class HashCollectionPatterns
+{
+    public static IReadOnlyDictionary<T, int> CountFrequencies<T>(
+        IEnumerable<T> values)
+        where T : notnull
+    {
+        ArgumentNullException.ThrowIfNull(values);
+
+        var counts = new Dictionary<T, int>();
+        foreach (T value in values)
+            counts[value] = counts.GetValueOrDefault(value) + 1;
+
+        return counts;
+    }
+
+    public static bool ContainsDuplicate<T>(IEnumerable<T> values)
+        where T : notnull
+    {
+        ArgumentNullException.ThrowIfNull(values);
+
+        var seen = new HashSet<T>();
+        foreach (T value in values)
+        {
+            if (!seen.Add(value))
+                return true;
+        }
+
+        return false;
+    }
+}
+```
+
+**Example:** `bool duplicate = HashCollectionPatterns.ContainsDuplicate([4, 2, 4]); // true`
+
+### 4.4 Subarray Sum Equals K
+
+**Why it exists / problem it solves:** If two prefix sums differ by `k`, the values between them sum to `k`. A frequency map counts matching earlier prefixes in one pass, including arrays with negative values.
+
+**Time:** O(n) average. **Space:** O(n).
+
+```csharp
+public static class SubarraySumAlgorithm
+{
+    public static long CountWithSum(int[] numbers, long target)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        var prefixFrequency = new Dictionary<long, long> { [0] = 1 };
+        long prefixSum = 0;
+        long matchingSubarrays = 0;
+
+        foreach (int number in numbers)
+        {
+            prefixSum += number;
+            matchingSubarrays +=
+                prefixFrequency.GetValueOrDefault(prefixSum - target);
+            prefixFrequency[prefixSum] =
+                prefixFrequency.GetValueOrDefault(prefixSum) + 1;
+        }
+
+        return matchingSubarrays;
+    }
+}
+```
+
+**Example:** `long count = SubarraySumAlgorithm.CountWithSum([1, 1, 1], 2); // 2`
 
 **Practice:** Group anagrams, subarray sum equals k, first unique character, longest consecutive sequence.
 
@@ -388,80 +952,171 @@ static int[] TwoSum(int[] nums, int target)
 
 ### 5.1 Stack (LIFO)
 
+**Why it exists / problem it solves:** A stack remembers items in reverse order of arrival, which matches problems where the most recent unfinished operation must be handled first. This makes it natural for nested structures, undo operations, expression evaluation, DFS, and monotonic-stack problems.
+
 **Use for:** Matching parentheses, undo, DFS, monotonic stack.
 
 ```csharp
-// Valid parentheses
-static bool IsValid(string s)
+public static class ParenthesesValidator
 {
-    var stack = new Stack<char>();
-    var pairs = new Dictionary<char, char>
-    {
-        [')'] = '(',
-        ['}'] = '{',
-        [']'] = '['
-    };
+    private static readonly IReadOnlyDictionary<char, char> OpeningByClosing =
+        new Dictionary<char, char>
+        {
+            [')'] = '(',
+            ['}'] = '{',
+            [']'] = '['
+        };
 
-    foreach (char ch in s)
+    public static bool IsValid(string text)
     {
-        if (ch is '(' or '{' or '[')
-            stack.Push(ch);
-        else if (stack.Count == 0 || stack.Pop() != pairs[ch])
-            return false;
+        ArgumentNullException.ThrowIfNull(text);
+
+        var openingCharacters = new Stack<char>();
+
+        foreach (char character in text)
+        {
+            if (character is '(' or '{' or '[')
+            {
+                openingCharacters.Push(character);
+                continue;
+            }
+
+            if (!OpeningByClosing.TryGetValue(character, out char expectedOpening)
+                || openingCharacters.Count == 0
+                || openingCharacters.Pop() != expectedOpening)
+            {
+                return false;
+            }
+        }
+
+        return openingCharacters.Count == 0;
     }
-    return stack.Count == 0;
 }
 ```
 
-**Monotonic stack:** Next greater element, daily temperatures, largest rectangle in histogram.
+**Example:** `bool isValid = ParenthesesValidator.IsValid("({[]})"); // true`
+
+**Monotonic stack:** Keeps pending values in increasing or decreasing order and removes values that can no longer be an answer. It solves next-greater/smaller and span problems in O(n), including daily temperatures and the largest rectangle in a histogram.
 
 ---
 
 ### 5.2 Queue / Deque (FIFO)
 
+**Why it exists / problem it solves:** A queue processes items in arrival order, which is needed for fair scheduling and level-by-level exploration. A deque extends this idea by allowing efficient insertion and removal at both ends, which helps maintain candidates for sliding-window problems.
+
 **Use for:** BFS, task scheduling, sliding window max.
 
+The deque-based Sliding Window Maximum implementation later in this section demonstrates why access to both ends matters.
+
+### 5.3 Monotonic Stack
+
+**Why it exists / problem it solves:** A decreasing stack keeps only values that can still be the next greater answer for a future element. Each index is pushed and popped at most once.
+
+**Time:** O(n). **Space:** O(n).
+
 ```csharp
-public sealed class TreeNode(int val = 0, TreeNode? left = null, TreeNode? right = null)
+public static class NextGreaterElementAlgorithm
 {
-    public int Val { get; set; } = val;
-    public TreeNode? Left { get; set; } = left;
-    public TreeNode? Right { get; set; } = right;
-}
-
-static IList<IList<int>> BfsLevelOrder(TreeNode? root)
-{
-    if (root is null)
-        return [];
-
-    var result = new List<IList<int>>();
-    var q = new Queue<TreeNode>();
-    q.Enqueue(root);
-
-    while (q.Count > 0)
+    public static int[] FindNextGreaterValues(int[] numbers)
     {
-        var level = new List<int>();
-        int count = q.Count;
+        ArgumentNullException.ThrowIfNull(numbers);
 
-        for (int i = 0; i < count; i++)
+        int[] result = Enumerable.Repeat(-1, numbers.Length).ToArray();
+        var unresolvedIndices = new Stack<int>();
+
+        for (int index = 0; index < numbers.Length; index++)
         {
-            var node = q.Dequeue();
-            level.Add(node.Val);
-            if (node.Left is not null) q.Enqueue(node.Left);
-            if (node.Right is not null) q.Enqueue(node.Right);
+            while (unresolvedIndices.Count > 0
+                && numbers[index] > numbers[unresolvedIndices.Peek()])
+            {
+                result[unresolvedIndices.Pop()] = numbers[index];
+            }
+
+            unresolvedIndices.Push(index);
         }
 
-        result.Add(level);
+        return result;
     }
-    return result;
 }
 ```
+
+**Example:** `int[] next = NextGreaterElementAlgorithm.FindNextGreaterValues([2, 1, 4, 3]); // [4, 4, -1, -1]`
+
+### 5.4 Sliding Window Maximum with a Deque
+
+**Why it exists / problem it solves:** A decreasing deque stores only indices that can still become the maximum. It avoids rescanning each window or maintaining a fully sorted structure.
+
+**Time:** O(n). **Space:** O(k).
+
+```csharp
+public static class SlidingWindowMaximumAlgorithm
+{
+    public static int[] Find(int[] numbers, int windowSize)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        if (windowSize < 1 || windowSize > numbers.Length)
+            throw new ArgumentOutOfRangeException(nameof(windowSize));
+
+        var candidateIndices = new LinkedList<int>();
+        var maximums = new int[numbers.Length - windowSize + 1];
+
+        for (int index = 0; index < numbers.Length; index++)
+        {
+            while (candidateIndices.First is not null
+                && candidateIndices.First.Value <= index - windowSize)
+            {
+                candidateIndices.RemoveFirst();
+            }
+
+            while (candidateIndices.Last is not null
+                && numbers[candidateIndices.Last.Value] <= numbers[index])
+            {
+                candidateIndices.RemoveLast();
+            }
+
+            candidateIndices.AddLast(index);
+
+            if (index >= windowSize - 1)
+                maximums[index - windowSize + 1] =
+                    numbers[candidateIndices.First!.Value];
+        }
+
+        return maximums;
+    }
+}
+```
+
+**Example:** `int[] maximums = SlidingWindowMaximumAlgorithm.Find([1, 3, -1, -3, 5, 3, 6, 7], 3); // [3, 3, 5, 5, 6, 7]`
 
 ---
 
 ## Part 6: Tree Algorithms
 
+**Shared tree node used by all examples:**
+
+```csharp
+public sealed class TreeNode
+{
+    public TreeNode(
+        int value,
+        TreeNode? left = null,
+        TreeNode? right = null)
+    {
+        Value = value;
+        Left = left;
+        Right = right;
+    }
+
+    public int Value { get; set; }
+    public TreeNode? Left { get; set; }
+    public TreeNode? Right { get; set; }
+}
+```
+
 ### 6.1 Traversals (must know)
+
+**Why they exist / problem they solve:** Trees are hierarchical rather than sequential, so traversal algorithms define a systematic order in which every node is visited. Different orders expose different properties: inorder sorts a BST, preorder handles a parent before its children, postorder handles children before their parent, and level order explores by depth.
 
 | Order | Visit order | Typical use |
 |-------|-------------|-------------|
@@ -471,24 +1126,220 @@ static IList<IList<int>> BfsLevelOrder(TreeNode? root)
 | Level order | By depth | Shortest path on unweighted tree |
 
 ```csharp
-static void Inorder(TreeNode? root)
+public static class InorderTreeTraversal
 {
-    if (root is null) return;
-    Inorder(root.Left);
-    Console.WriteLine(root.Val);
-    Inorder(root.Right);
+    public static IReadOnlyList<int> Traverse(TreeNode? root)
+    {
+        var values = new List<int>();
+        TraverseNode(root, values);
+        return values;
+    }
+
+    private static void TraverseNode(TreeNode? node, List<int> values)
+    {
+        if (node is null)
+            return;
+
+        TraverseNode(node.Left, values);
+        values.Add(node.Value);
+        TraverseNode(node.Right, values);
+    }
 }
 ```
+
+**Example:**
+
+```csharp
+var root = new TreeNode(
+    2,
+    left: new TreeNode(1),
+    right: new TreeNode(3));
+
+var values = InorderTreeTraversal.Traverse(root); // [1, 2, 3]
+```
+
+Each traversal visits every node once: **O(n) time** and **O(h) recursion space**, where `h` is tree height. Level order uses O(w) queue space, where `w` is maximum width.
+
+```csharp
+public static class AdditionalTreeTraversals
+{
+    public static IReadOnlyList<int> Preorder(TreeNode? root)
+    {
+        var values = new List<int>();
+        VisitPreorder(root, values);
+        return values;
+    }
+
+    public static IReadOnlyList<int> Postorder(TreeNode? root)
+    {
+        var values = new List<int>();
+        VisitPostorder(root, values);
+        return values;
+    }
+
+    public static IReadOnlyList<IReadOnlyList<int>> LevelOrder(TreeNode? root)
+    {
+        if (root is null)
+            return [];
+
+        var levels = new List<IReadOnlyList<int>>();
+        var queue = new Queue<TreeNode>();
+        queue.Enqueue(root);
+
+        while (queue.Count > 0)
+        {
+            int levelSize = queue.Count;
+            var level = new List<int>(levelSize);
+
+            for (int count = 0; count < levelSize; count++)
+            {
+                TreeNode node = queue.Dequeue();
+                level.Add(node.Value);
+                if (node.Left is not null) queue.Enqueue(node.Left);
+                if (node.Right is not null) queue.Enqueue(node.Right);
+            }
+
+            levels.Add(level);
+        }
+
+        return levels;
+    }
+
+    private static void VisitPreorder(TreeNode? node, List<int> values)
+    {
+        if (node is null) return;
+        values.Add(node.Value);
+        VisitPreorder(node.Left, values);
+        VisitPreorder(node.Right, values);
+    }
+
+    private static void VisitPostorder(TreeNode? node, List<int> values)
+    {
+        if (node is null) return;
+        VisitPostorder(node.Left, values);
+        VisitPostorder(node.Right, values);
+        values.Add(node.Value);
+    }
+}
+```
+
+**Example:** `var levels = AdditionalTreeTraversals.LevelOrder(root);`
 
 ---
 
 ### 6.2 BST Operations
+
+**Why they exist / problem they solve:** A Binary Search Tree maintains the rule `left < node < right`, allowing search, insertion, and deletion to ignore an entire subtree at each step. It solves the problem of maintaining a dynamic ordered collection, although a balanced BST is needed to guarantee logarithmic performance.
 
 | Operation | Average | Worst (unbalanced) |
 |-----------|---------|---------------------|
 | Search | O(log n) | O(n) |
 | Insert | O(log n) | O(n) |
 | Delete | O(log n) | O(n) |
+
+```csharp
+public static class BinarySearchTreeAlgorithms
+{
+    public static TreeNode? Search(TreeNode? root, int target)
+    {
+        while (root is not null)
+        {
+            if (root.Value == target)
+                return root;
+
+            root = target < root.Value ? root.Left : root.Right;
+        }
+
+        return null;
+    }
+
+    public static TreeNode Insert(TreeNode? root, int value)
+    {
+        if (root is null)
+            return new TreeNode(value);
+
+        if (value < root.Value)
+            root.Left = Insert(root.Left, value);
+        else if (value > root.Value)
+            root.Right = Insert(root.Right, value);
+
+        return root;
+    }
+
+    public static TreeNode? Delete(TreeNode? root, int value)
+    {
+        if (root is null)
+            return null;
+
+        if (value < root.Value)
+            root.Left = Delete(root.Left, value);
+        else if (value > root.Value)
+            root.Right = Delete(root.Right, value);
+        else
+        {
+            if (root.Left is null) return root.Right;
+            if (root.Right is null) return root.Left;
+
+            TreeNode successor = FindMinimum(root.Right);
+            root.Value = successor.Value;
+            root.Right = Delete(root.Right, successor.Value);
+        }
+
+        return root;
+    }
+
+    public static bool IsValid(TreeNode? root)
+        => IsWithinBounds(root, long.MinValue, long.MaxValue);
+
+    public static TreeNode? LowestCommonAncestor(
+        TreeNode? root,
+        int firstValue,
+        int secondValue)
+    {
+        while (root is not null)
+        {
+            if (firstValue < root.Value && secondValue < root.Value)
+                root = root.Left;
+            else if (firstValue > root.Value && secondValue > root.Value)
+                root = root.Right;
+            else
+                return root;
+        }
+
+        return null;
+    }
+
+    private static TreeNode FindMinimum(TreeNode node)
+    {
+        while (node.Left is not null)
+            node = node.Left;
+
+        return node;
+    }
+
+    private static bool IsWithinBounds(TreeNode? node, long lower, long upper)
+    {
+        if (node is null)
+            return true;
+
+        return node.Value > lower
+            && node.Value < upper
+            && IsWithinBounds(node.Left, lower, node.Value)
+            && IsWithinBounds(node.Right, node.Value, upper);
+    }
+}
+```
+
+**Example:**
+
+```csharp
+TreeNode? root = null;
+foreach (int value in new[] { 8, 3, 10, 1, 6 })
+    root = BinarySearchTreeAlgorithms.Insert(root, value);
+
+bool containsSix = BinarySearchTreeAlgorithms.Search(root, 6) is not null;
+bool isValid = BinarySearchTreeAlgorithms.IsValid(root);
+```
 
 **Practice:** Validate BST, lowest common ancestor, k-th smallest in BST, convert sorted array to BST.
 
@@ -501,7 +1352,11 @@ Represent graphs as:
 - **Adjacency list** (most common): `graph[u] = new List<int> { v1, v2, ... }`
 - **Adjacency matrix** for dense graphs or quick edge lookup
 
+These representations exist because graph performance depends heavily on how edges are stored. An adjacency list uses O(V + E) space and efficiently iterates a vertex's neighbors, while an adjacency matrix uses O(V²) space in exchange for O(1) edge-existence checks.
+
 ### 7.1 BFS (Breadth-First Search)
+
+**Why it exists / problem it solves:** BFS explores a graph one distance level at a time. This ordering makes it the standard solution for reachability and shortest paths when every edge has equal cost.
 
 | | |
 |---|---|
@@ -509,27 +1364,98 @@ Represent graphs as:
 | **Use when** | Shortest path in unweighted graph, level-by-level exploration |
 
 ```csharp
-static void Bfs(Dictionary<int, List<int>> graph, int start)
+public static class BreadthFirstSearch
 {
-    var visited = new HashSet<int> { start };
-    var q = new Queue<int>();
-    q.Enqueue(start);
-
-    while (q.Count > 0)
+    public static IReadOnlyList<int> Traverse(
+        IReadOnlyDictionary<int, List<int>> graph,
+        int startVertex)
     {
-        int node = q.Dequeue();
-        foreach (int nei in graph[node])
+        ArgumentNullException.ThrowIfNull(graph);
+
+        if (!graph.ContainsKey(startVertex))
+            throw new ArgumentException("The start vertex is not in the graph.");
+
+        var traversalOrder = new List<int>();
+        var visited = new HashSet<int> { startVertex };
+        var verticesToVisit = new Queue<int>();
+        verticesToVisit.Enqueue(startVertex);
+
+        while (verticesToVisit.Count > 0)
         {
-            if (visited.Add(nei))
-                q.Enqueue(nei);
+            int currentVertex = verticesToVisit.Dequeue();
+            traversalOrder.Add(currentVertex);
+
+            if (!graph.TryGetValue(currentVertex, out List<int>? neighbors))
+                continue;
+
+            foreach (int neighbor in neighbors)
+            {
+                if (visited.Add(neighbor))
+                    verticesToVisit.Enqueue(neighbor);
+            }
         }
+
+        return traversalOrder;
     }
 }
 ```
 
+**Example:**
+
+```csharp
+var graph = new Dictionary<int, List<int>>
+{
+    [0] = [1, 2],
+    [1] = [2],
+    [2] = []
+};
+
+var order = BreadthFirstSearch.Traverse(graph, startVertex: 0); // [0, 1, 2]
+```
+
+**Unweighted shortest-path distances:** BFS records the level at which each vertex is first reached, producing shortest edge counts in O(V + E) time and O(V) space.
+
+```csharp
+public static class UnweightedShortestPath
+{
+    public static IReadOnlyDictionary<int, int> FindDistances(
+        IReadOnlyDictionary<int, List<int>> graph,
+        int source)
+    {
+        ArgumentNullException.ThrowIfNull(graph);
+
+        var distances = new Dictionary<int, int> { [source] = 0 };
+        var queue = new Queue<int>();
+        queue.Enqueue(source);
+
+        while (queue.Count > 0)
+        {
+            int vertex = queue.Dequeue();
+            if (!graph.TryGetValue(vertex, out List<int>? neighbors))
+                continue;
+
+            foreach (int neighbor in neighbors)
+            {
+                if (distances.ContainsKey(neighbor))
+                    continue;
+
+                distances[neighbor] = distances[vertex] + 1;
+                queue.Enqueue(neighbor);
+            }
+        }
+
+        return distances;
+    }
+}
+```
+
+**Example:** `var distances = UnweightedShortestPath.FindDistances(graph, 0);`
+
 ---
 
 ### 7.2 DFS (Depth-First Search)
+
+**Why it exists / problem it solves:** DFS follows one path as deeply as possible before backtracking. It is useful when a problem requires complete exploration, structural analysis, cycle detection, connected components, or trying choices recursively.
 
 | | |
 |---|---|
@@ -537,35 +1463,206 @@ static void Bfs(Dictionary<int, List<int>> graph, int start)
 | **Use when** | Connectivity, cycles, topological sort, backtracking on graphs |
 
 ```csharp
-static void Dfs(Dictionary<int, List<int>> graph, int node, HashSet<int>? visited = null)
+public static class DepthFirstSearch
 {
-    visited ??= [];
-    visited.Add(node);
-
-    foreach (int nei in graph[node])
+    public static IReadOnlyList<int> Traverse(
+        IReadOnlyDictionary<int, List<int>> graph,
+        int startVertex)
     {
-        if (!visited.Contains(nei))
-            Dfs(graph, nei, visited);
+        ArgumentNullException.ThrowIfNull(graph);
+
+        if (!graph.ContainsKey(startVertex))
+            throw new ArgumentException("The start vertex is not in the graph.");
+
+        var traversalOrder = new List<int>();
+        var visited = new HashSet<int>();
+        Visit(graph, startVertex, visited, traversalOrder);
+        return traversalOrder;
+    }
+
+    private static void Visit(
+        IReadOnlyDictionary<int, List<int>> graph,
+        int currentVertex,
+        HashSet<int> visited,
+        List<int> traversalOrder)
+    {
+        if (!visited.Add(currentVertex))
+            return;
+
+        traversalOrder.Add(currentVertex);
+
+        if (!graph.TryGetValue(currentVertex, out List<int>? neighbors))
+            return;
+
+        foreach (int neighbor in neighbors)
+            Visit(graph, neighbor, visited, traversalOrder);
     }
 }
 ```
 
-**Iterative DFS** with a `Stack<T>` is also worth practicing.
+**Example:**
+
+```csharp
+var graph = new Dictionary<int, List<int>>
+{
+    [0] = [1, 2],
+    [1] = [2],
+    [2] = []
+};
+
+var order = DepthFirstSearch.Traverse(graph, startVertex: 0); // [0, 1, 2]
+```
+
+**Iterative DFS** uses an explicit `Stack<T>` to solve the same exploration problems without relying on the program's call stack. It is safer than recursive DFS for very deep graphs, where recursion could cause a stack overflow.
+
+```csharp
+public static class IterativeDepthFirstSearch
+{
+    public static IReadOnlyList<int> Traverse(
+        IReadOnlyDictionary<int, List<int>> graph,
+        int start)
+    {
+        ArgumentNullException.ThrowIfNull(graph);
+
+        var order = new List<int>();
+        var visited = new HashSet<int>();
+        var stack = new Stack<int>();
+        stack.Push(start);
+
+        while (stack.Count > 0)
+        {
+            int vertex = stack.Pop();
+            if (!visited.Add(vertex))
+                continue;
+
+            order.Add(vertex);
+
+            if (!graph.TryGetValue(vertex, out List<int>? neighbors))
+                continue;
+
+            for (int index = neighbors.Count - 1; index >= 0; index--)
+            {
+                if (!visited.Contains(neighbors[index]))
+                    stack.Push(neighbors[index]);
+            }
+        }
+
+        return order;
+    }
+}
+```
+
+**Connected components:** Repeating DFS from every unvisited vertex groups an undirected graph in O(V + E) time and O(V) space.
+
+```csharp
+public static class ConnectedComponentsAlgorithm
+{
+    public static IReadOnlyList<IReadOnlyList<int>> Find(
+        IReadOnlyDictionary<int, List<int>> graph)
+    {
+        ArgumentNullException.ThrowIfNull(graph);
+
+        var visited = new HashSet<int>();
+        var components = new List<IReadOnlyList<int>>();
+
+        foreach (int start in graph.Keys)
+        {
+            if (visited.Contains(start))
+                continue;
+
+            var component = new List<int>();
+            var stack = new Stack<int>();
+            stack.Push(start);
+
+            while (stack.Count > 0)
+            {
+                int vertex = stack.Pop();
+                if (!visited.Add(vertex))
+                    continue;
+
+                component.Add(vertex);
+                if (!graph.TryGetValue(vertex, out List<int>? neighbors))
+                    continue;
+
+                foreach (int neighbor in neighbors)
+                    stack.Push(neighbor);
+            }
+
+            components.Add(component);
+        }
+
+        return components;
+    }
+}
+```
 
 ---
 
 ### 7.3 Topological Sort
 
+**Why it exists / problem it solves:** Topological Sort creates a valid linear order from dependencies in a directed acyclic graph (DAG). It solves questions such as which course, task, or build target must be completed before another and also detects when cyclic dependencies make an order impossible.
+
 **Use when:** Dependencies, build order, course schedule.
 
-- Kahn's algorithm (BFS + in-degree)
-- DFS post-order reverse
+- **Kahn's algorithm (BFS + in-degree):** Repeatedly processes vertices with no remaining prerequisites. If it cannot process every vertex, the graph contains a cycle.
+- **DFS post-order reverse:** Adds each vertex after all of its dependencies have been explored, then reverses the result. It provides a natural topological order when DFS is already being used.
+
+**Time:** O(V + E). **Space:** O(V).
+
+```csharp
+public static class TopologicalSortAlgorithm
+{
+    public static IReadOnlyList<int> Sort(
+        IReadOnlyDictionary<int, List<int>> graph)
+    {
+        ArgumentNullException.ThrowIfNull(graph);
+
+        var inDegree = new Dictionary<int, int>();
+
+        foreach (var (vertex, neighbors) in graph)
+        {
+            inDegree.TryAdd(vertex, 0);
+            foreach (int neighbor in neighbors)
+                inDegree[neighbor] = inDegree.GetValueOrDefault(neighbor) + 1;
+        }
+
+        var ready = new Queue<int>(
+            inDegree.Where(pair => pair.Value == 0).Select(pair => pair.Key));
+        var order = new List<int>(inDegree.Count);
+
+        while (ready.Count > 0)
+        {
+            int vertex = ready.Dequeue();
+            order.Add(vertex);
+
+            if (!graph.TryGetValue(vertex, out List<int>? neighbors))
+                continue;
+
+            foreach (int neighbor in neighbors)
+            {
+                inDegree[neighbor]--;
+                if (inDegree[neighbor] == 0)
+                    ready.Enqueue(neighbor);
+            }
+        }
+
+        if (order.Count != inDegree.Count)
+            throw new InvalidOperationException("The graph contains a cycle.");
+
+        return order;
+    }
+}
+```
+
+**Example:** `var buildOrder = TopologicalSortAlgorithm.Sort(dependencyGraph);`
 
 **Practice:** Course schedule I/II, alien dictionary.
 
 ---
 
 ### 7.4 Shortest Path
+
+**Why these algorithms exist / problem they solve:** Shortest-path algorithms find the minimum-cost route between vertices, but different edge rules require different methods. Choosing the correct algorithm prevents incorrect results and avoids unnecessary work.
 
 | Algorithm | When |
 |-----------|------|
@@ -574,74 +1671,198 @@ static void Dfs(Dictionary<int, List<int>> graph, int node, HashSet<int>? visite
 | Bellman-Ford | Negative weights allowed |
 | Floyd-Warshall | All pairs (small V) |
 
+- **BFS:** Finds the path with the fewest edges in an unweighted graph by exploring vertices level by level.
+- **Dijkstra:** Finds shortest paths from one source when all edge weights are non-negative by always expanding the currently cheapest known route.
+- **Bellman-Ford:** Supports negative edge weights by repeatedly relaxing every edge and can detect a reachable negative cycle.
+- **Floyd-Warshall:** Computes shortest paths between every pair of vertices using dynamic programming, trading O(V³) time for a simple all-pairs solution.
+
 **Dijkstra template (`PriorityQueue<TElement, TPriority>`):**
 
 ```csharp
-static Dictionary<int, int> Dijkstra(
-    Dictionary<int, List<(int Neighbor, int Weight)>> graph,
-    int src)
+public static class DijkstraShortestPath
 {
-    var dist = new Dictionary<int, int> { [src] = 0 };
-    var pq = new PriorityQueue<int, int>();
-    pq.Enqueue(src, 0);
-
-    while (pq.Count > 0)
+    public static IReadOnlyDictionary<int, long> FindDistances(
+        IReadOnlyDictionary<int, List<(int Neighbor, int Weight)>> graph,
+        int sourceVertex)
     {
-        pq.TryDequeue(out int u, out int d);
-        if (!dist.TryGetValue(u, out int best) || d > best)
-            continue;
+        ArgumentNullException.ThrowIfNull(graph);
 
-        if (!graph.TryGetValue(u, out var neighbors))
-            continue;
+        if (!graph.ContainsKey(sourceVertex))
+            throw new ArgumentException("The source vertex is not in the graph.");
 
-        foreach (var (v, w) in neighbors)
+        var distanceByVertex = new Dictionary<int, long>
         {
-            int nd = d + w;
-            if (!dist.TryGetValue(v, out int existing) || nd < existing)
+            [sourceVertex] = 0
+        };
+        var verticesByDistance = new PriorityQueue<int, long>();
+        verticesByDistance.Enqueue(sourceVertex, 0);
+
+        while (verticesByDistance.TryDequeue(
+            out int currentVertex,
+            out long queuedDistance))
+        {
+            if (queuedDistance > distanceByVertex[currentVertex])
+                continue;
+
+            if (!graph.TryGetValue(
+                currentVertex,
+                out List<(int Neighbor, int Weight)>? neighbors))
             {
-                dist[v] = nd;
-                pq.Enqueue(v, nd);
+                continue;
+            }
+
+            foreach (var (neighbor, weight) in neighbors)
+            {
+                if (weight < 0)
+                    throw new ArgumentException(
+                        "Dijkstra's algorithm requires non-negative weights.");
+
+                long candidateDistance = queuedDistance + weight;
+
+                if (!distanceByVertex.TryGetValue(neighbor, out long knownDistance)
+                    || candidateDistance < knownDistance)
+                {
+                    distanceByVertex[neighbor] = candidateDistance;
+                    verticesByDistance.Enqueue(neighbor, candidateDistance);
+                }
             }
         }
+
+        return distanceByVertex;
     }
-    return dist;
 }
+```
+
+**Example:**
+
+```csharp
+var weightedGraph = new Dictionary<int, List<(int Neighbor, int Weight)>>
+{
+    [0] = [(1, 4), (2, 1)],
+    [1] = [(3, 1)],
+    [2] = [(1, 2), (3, 5)],
+    [3] = []
+};
+
+var distances =
+    DijkstraShortestPath.FindDistances(weightedGraph, sourceVertex: 0);
+// 0 → 0, 1 → 3, 2 → 1, 3 → 4
 ```
 
 ---
 
 ### 7.5 Union-Find (Disjoint Set Union)
 
+**Why it exists / problem it solves:** Union-Find efficiently tracks which items belong to the same connected group while groups are being merged. It avoids rerunning a complete graph traversal after every new connection, making it useful for dynamic connectivity and Kruskal's minimum spanning tree algorithm.
+
 **Use when:** Connected components, Kruskal's MST, "are u and v in same group?"
 
-```csharp
-sealed class UnionFind(int n)
-{
-    private readonly int[] parent = Enumerable.Range(0, n).ToArray();
-    private readonly int[] rank = new int[n];
+**Kruskal's minimum spanning tree:** Sorts edges by weight and adds the cheapest edge that does not create a cycle. It solves the problem of connecting every vertex with minimum total edge cost, while Union-Find performs the cycle checks efficiently.
 
-    public int Find(int x)
+```csharp
+public sealed class UnionFind
+{
+    private readonly int[] parent;
+    private readonly int[] rank;
+
+    public UnionFind(int size)
     {
-        if (parent[x] != x)
-            parent[x] = Find(parent[x]);
-        return parent[x];
+        if (size < 0)
+            throw new ArgumentOutOfRangeException(nameof(size));
+
+        parent = Enumerable.Range(0, size).ToArray();
+        rank = new int[size];
     }
 
-    public bool Union(int a, int b)
+    public int Find(int item)
     {
-        int ra = Find(a), rb = Find(b);
-        if (ra == rb) return false;
+        ValidateItem(item);
 
-        if (rank[ra] < rank[rb])
-            (ra, rb) = (rb, ra);
+        if (parent[item] != item)
+            parent[item] = Find(parent[item]); // Path compression
 
-        parent[rb] = ra;
-        if (rank[ra] == rank[rb])
-            rank[ra]++;
+        return parent[item];
+    }
+
+    public bool Union(int firstItem, int secondItem)
+    {
+        int firstRoot = Find(firstItem);
+        int secondRoot = Find(secondItem);
+
+        if (firstRoot == secondRoot)
+            return false;
+
+        if (rank[firstRoot] < rank[secondRoot])
+            (firstRoot, secondRoot) = (secondRoot, firstRoot);
+
+        parent[secondRoot] = firstRoot; // Union by rank
+
+        if (rank[firstRoot] == rank[secondRoot])
+            rank[firstRoot]++;
+
         return true;
+    }
+
+    public bool AreConnected(int firstItem, int secondItem)
+        => Find(firstItem) == Find(secondItem);
+
+    private void ValidateItem(int item)
+    {
+        if ((uint)item >= (uint)parent.Length)
+            throw new ArgumentOutOfRangeException(nameof(item));
     }
 }
 ```
+
+**Example:**
+
+```csharp
+var groups = new UnionFind(size: 5);
+groups.Union(0, 1);
+bool connected = groups.AreConnected(0, 1); // true
+```
+
+**Kruskal's minimum spanning tree:** Sort edges by weight and accept an edge only when it joins two previously separate components.
+
+**Time:** O(E log E). **Space:** O(V + E).
+
+```csharp
+public readonly record struct WeightedEdge(int From, int To, int Weight);
+
+public static class KruskalMinimumSpanningTree
+{
+    public static IReadOnlyList<WeightedEdge> Find(
+        int vertexCount,
+        IEnumerable<WeightedEdge> edges)
+    {
+        if (vertexCount < 0)
+            throw new ArgumentOutOfRangeException(nameof(vertexCount));
+        ArgumentNullException.ThrowIfNull(edges);
+
+        var groups = new UnionFind(vertexCount);
+        var tree = new List<WeightedEdge>();
+
+        foreach (WeightedEdge edge in edges.OrderBy(edge => edge.Weight))
+        {
+            if (edge.From < 0 || edge.From >= vertexCount
+                || edge.To < 0 || edge.To >= vertexCount)
+            {
+                throw new ArgumentException("An edge contains an invalid vertex.");
+            }
+
+            if (groups.Union(edge.From, edge.To))
+                tree.Add(edge);
+        }
+
+        if (vertexCount > 0 && tree.Count != vertexCount - 1)
+            throw new InvalidOperationException("The graph is disconnected.");
+
+        return tree;
+    }
+}
+```
+
+**Example:** `var tree = KruskalMinimumSpanningTree.Find(3, [new(0, 1, 4), new(1, 2, 2), new(0, 2, 5)]);`
 
 **Practice:** Number of islands, redundant connection, accounts merge.
 
@@ -649,26 +1870,86 @@ sealed class UnionFind(int n)
 
 ## Part 8: Heap / Priority Queue
 
+**Why it exists / problem it solves:** A heap keeps the highest- or lowest-priority item available without fully sorting all items after every update. It solves problems that repeatedly need the current minimum or maximum, such as scheduling, Top K queries, streaming data, and Dijkstra's algorithm.
+
 | | |
 |---|---|
 | **Operations** | insert O(log n), extract-min/max O(log n), peek O(1) |
 | **Use when** | Top K elements, merge K sorted lists, scheduling, Dijkstra |
 
-```csharp
-// Top K frequent elements
-static int[] TopKFrequent(int[] nums, int k)
-{
-    var counts = new Dictionary<int, int>();
-    foreach (int n in nums)
-        counts[n] = counts.GetValueOrDefault(n) + 1;
+### 8.1 Top K Frequent Elements
 
-    return counts
-        .OrderByDescending(kv => kv.Value)
-        .Take(k)
-        .Select(kv => kv.Key)
-        .ToArray();
+```csharp
+public static class TopKFrequentAlgorithm
+{
+    public static int[] Find(int[] numbers, int count)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        var frequencyByNumber = new Dictionary<int, int>();
+
+        foreach (int number in numbers)
+        {
+            frequencyByNumber[number] =
+                frequencyByNumber.GetValueOrDefault(number) + 1;
+        }
+
+        if (count < 0 || count > frequencyByNumber.Count)
+            throw new ArgumentOutOfRangeException(nameof(count));
+
+        var mostFrequent = new PriorityQueue<int, int>();
+
+        foreach (var (number, frequency) in frequencyByNumber)
+        {
+            mostFrequent.Enqueue(number, frequency);
+
+            if (mostFrequent.Count > count)
+                mostFrequent.Dequeue();
+        }
+
+        var result = new int[count];
+
+        for (int index = count - 1; index >= 0; index--)
+            result[index] = mostFrequent.Dequeue();
+
+        return result;
+    }
 }
 ```
+
+**Example:** `int[] topTwo = TopKFrequentAlgorithm.Find([1, 1, 1, 2, 2, 3], count: 2);`
+
+### 8.2 K-th Largest with a Bounded Heap
+
+**Why it exists / problem it solves:** A min-heap of size `k` keeps only the `k` largest values seen so far. Its root is therefore the k-th largest value, avoiding a full sort.
+
+**Time:** O(n log k). **Space:** O(k).
+
+```csharp
+public static class KthLargestHeapAlgorithm
+{
+    public static int Find(int[] numbers, int k)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        if (k < 1 || k > numbers.Length)
+            throw new ArgumentOutOfRangeException(nameof(k));
+
+        var largestValues = new PriorityQueue<int, int>();
+
+        foreach (int number in numbers)
+        {
+            largestValues.Enqueue(number, number);
+            if (largestValues.Count > k)
+                largestValues.Dequeue();
+        }
+
+        return largestValues.Peek();
+    }
+}
+```
+
+**Example:** `int secondLargest = KthLargestHeapAlgorithm.Find([3, 2, 1, 5, 6, 4], 2); // 5`
 
 **Practice:** Kth largest in stream, find median from data stream, meeting rooms II.
 
@@ -678,12 +1959,94 @@ static int[] TopKFrequent(int[] nums, int k)
 
 ### 9.1 Basic Techniques
 
-- Frequency arrays / hash maps
-- Two pointers on strings
-- Rolling hash (Rabin-Karp idea)
-- Prefix function / KMP (advanced; know it exists)
+String algorithms exist because repeatedly comparing characters can become expensive, especially for long text or many queries. Each technique exploits a different property of the problem:
 
-### 9.2 Common Problems
+- <a id="string-frequency-counting"></a>**Frequency arrays / hash maps:** Count characters so anagrams, duplicates, and character requirements can be checked without repeatedly scanning both strings.
+- <a id="string-two-pointers"></a>**Two pointers on strings:** Compare or transform characters from two positions, which solves palindrome checks, subsequence matching, and in-place-style scans efficiently.
+- <a id="rolling-hash--rabin-karp"></a>**Rolling hash (Rabin-Karp idea):** Updates a substring's hash as the window moves, allowing candidate pattern matches to be found without comparing every character at every position.
+- <a id="prefix-function--kmp"></a>**Prefix function / KMP:** Reuses information from earlier partial matches so substring search does not restart from the next text character after a mismatch.
+
+### 9.2 Anagram with Frequency Counting
+
+**Why it exists / problem it solves:** Two strings are anagrams when every character occurs the same number of times. Counting avoids sorting and makes the comparison linear.
+
+**Time:** O(n + m). **Space:** O(k), where `k` is the number of distinct characters.
+
+```csharp
+public static class AnagramAlgorithm
+{
+    public static bool AreAnagrams(string first, string second)
+    {
+        ArgumentNullException.ThrowIfNull(first);
+        ArgumentNullException.ThrowIfNull(second);
+
+        if (first.Length != second.Length)
+            return false;
+
+        var counts = new Dictionary<char, int>();
+
+        foreach (char character in first)
+            counts[character] = counts.GetValueOrDefault(character) + 1;
+
+        foreach (char character in second)
+        {
+            if (!counts.TryGetValue(character, out int count))
+                return false;
+
+            if (count == 1)
+                counts.Remove(character);
+            else
+                counts[character] = count - 1;
+        }
+
+        return counts.Count == 0;
+    }
+}
+```
+
+**Example:** `bool result = AnagramAlgorithm.AreAnagrams("listen", "silent"); // true`
+
+### 9.3 Palindrome with Two Pointers
+
+**Why it exists / problem it solves:** Comparing characters from both ends verifies symmetry without creating a reversed copy. This version ignores punctuation and letter case.
+
+**Time:** O(n). **Space:** O(1).
+
+```csharp
+public static class PalindromeAlgorithm
+{
+    public static bool IsPalindrome(string text)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+
+        int left = 0;
+        int right = text.Length - 1;
+
+        while (left < right)
+        {
+            while (left < right && !char.IsLetterOrDigit(text[left]))
+                left++;
+            while (left < right && !char.IsLetterOrDigit(text[right]))
+                right--;
+
+            if (char.ToUpperInvariant(text[left])
+                != char.ToUpperInvariant(text[right]))
+            {
+                return false;
+            }
+
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+}
+```
+
+**Example:** `bool result = PalindromeAlgorithm.IsPalindrome("A man, a plan, a canal: Panama"); // true`
+
+### 9.4 Common Problems
 
 | Problem type | Approach |
 |--------------|----------|
@@ -692,31 +2055,81 @@ static int[] TopKFrequent(int[] nums, int k)
 | Substring search | Sliding window, KMP for heavy cases |
 | Prefix matching | Trie |
 
-**Trie (prefix tree):**
+### 9.5 Trie (Prefix Tree)
+
+**Why it exists / problem it solves:** A Trie stores strings by shared prefixes, so lookup time depends on the word length rather than the number of stored words. It is designed for prefix queries such as autocomplete, dictionaries, and spell-checking.
 
 ```csharp
-sealed class TrieNode
-{
-    public Dictionary<char, TrieNode> Children { get; } = [];
-    public bool IsEnd { get; set; }
-}
-
-sealed class Trie
+public sealed class Trie
 {
     private readonly TrieNode root = new();
 
     public void Insert(string word)
     {
-        TrieNode node = root;
-        foreach (char ch in word)
+        ArgumentNullException.ThrowIfNull(word);
+
+        TrieNode currentNode = root;
+
+        foreach (char character in word)
         {
-            if (!node.Children.TryGetValue(ch, out TrieNode? child))
-                node.Children[ch] = child = new TrieNode();
-            node = child;
+            if (!currentNode.Children.TryGetValue(
+                character,
+                out TrieNode? childNode))
+            {
+                childNode = new TrieNode();
+                currentNode.Children[character] = childNode;
+            }
+
+            currentNode = childNode;
         }
-        node.IsEnd = true;
+
+        currentNode.IsCompleteWord = true;
+    }
+
+    public bool Contains(string word)
+    {
+        TrieNode? node = FindNode(word);
+        return node?.IsCompleteWord == true;
+    }
+
+    public bool StartsWith(string prefix) => FindNode(prefix) is not null;
+
+    private TrieNode? FindNode(string text)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+
+        TrieNode currentNode = root;
+
+        foreach (char character in text)
+        {
+            if (!currentNode.Children.TryGetValue(
+                character,
+                out TrieNode? childNode))
+            {
+                return null;
+            }
+
+            currentNode = childNode;
+        }
+
+        return currentNode;
+    }
+
+    private sealed class TrieNode
+    {
+        public Dictionary<char, TrieNode> Children { get; } = [];
+        public bool IsCompleteWord { get; set; }
     }
 }
+```
+
+**Example:**
+
+```csharp
+var words = new Trie();
+words.Insert("apple");
+bool hasWord = words.Contains("apple");      // true
+bool hasPrefix = words.StartsWith("app");    // true
 ```
 
 **Practice:** Implement autocomplete, word search II, longest common prefix.
@@ -725,27 +2138,686 @@ sealed class Trie
 
 ## Part 10: Classic Misc Algorithms
 
-| Algorithm | Purpose |
-|-----------|---------|
-| **Kadane's** | Maximum subarray sum — O(n) |
-| **Floyd's cycle detection** | Detect cycle in linked list |
-| **Fast exponentiation** | Compute a^n in O(log n) |
-| **GCD (Euclidean)** | Greatest common divisor |
-| **Sieve of Eratosthenes** | All primes up to n |
+These algorithms solve recurring problems substantially faster or with less memory than straightforward brute-force approaches.
+
+| Algorithm | Why it exists / problem it solves |
+|-----------|------------------------------------|
+| <a id="kadanes-algorithm"></a>**Kadane's** | Finds the maximum sum of a contiguous subarray in O(n), avoiding enumeration of every possible subarray. |
+| <a id="floyds-cycle-detection"></a>**Floyd's cycle detection** | Detects a cycle in a linked structure using two moving pointers and O(1) extra space, avoiding a visited set. |
+| <a id="fast-exponentiation"></a>**Fast exponentiation** | Computes `aⁿ` in O(log n) multiplications by repeatedly squaring, instead of multiplying `a` exactly `n` times. |
+| <a id="euclidean-gcd"></a>**GCD (Euclidean)** | Finds the greatest common divisor by repeatedly replacing a pair with the divisor and remainder, supporting fraction reduction and divisibility problems efficiently. |
+| <a id="sieve-of-eratosthenes"></a>**Sieve of Eratosthenes** | Finds all primes up to `n` together by marking composite multiples, avoiding a separate primality test for every number. |
+
+### 10.1 Kadane's Algorithm
 
 ```csharp
-// Kadane's algorithm
-static int MaxSubarray(int[] nums)
+public static class KadanesAlgorithm
 {
-    int best = nums[0], cur = nums[0];
-    for (int i = 1; i < nums.Length; i++)
+    public static long FindMaximumSubarraySum(int[] numbers)
     {
-        cur = Math.Max(nums[i], cur + nums[i]);
-        best = Math.Max(best, cur);
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        if (numbers.Length == 0)
+            throw new ArgumentException("The array must not be empty.");
+
+        long bestSumEndingHere = numbers[0];
+        long bestSumOverall = numbers[0];
+
+        for (int index = 1; index < numbers.Length; index++)
+        {
+            bestSumEndingHere = Math.Max(
+                numbers[index],
+                bestSumEndingHere + numbers[index]);
+
+            bestSumOverall = Math.Max(bestSumOverall, bestSumEndingHere);
+        }
+
+        return bestSumOverall;
     }
-    return best;
 }
 ```
+
+**Example:** `long maximumSum = KadanesAlgorithm.FindMaximumSubarraySum([-2, 1, -3, 4, -1, 2, 1]); // 6`
+
+### 10.2 Floyd's Cycle Detection
+
+Floyd's fast/slow-pointer algorithm detects a cycle in O(n) time and O(1) space. The canonical, copy-ready implementation is in [Part 11.3: Floyd's Cycle Detection](#113-floyds-cycle-detection), where the linked-list node model is defined.
+
+### 10.3 Fast Exponentiation
+
+**Why it exists / problem it solves:** Repeated squaring reduces exponentiation from O(exponent) multiplications to O(log exponent). It is useful for large powers and modular arithmetic.
+
+**Time:** O(log exponent). **Space:** O(1).
+
+```csharp
+public static class FastExponentiationAlgorithm
+{
+    public static long Power(long value, int exponent)
+    {
+        if (exponent < 0)
+            throw new ArgumentOutOfRangeException(nameof(exponent));
+
+        long result = 1;
+        long factor = value;
+
+        while (exponent > 0)
+        {
+            if ((exponent & 1) == 1)
+                result = checked(result * factor);
+
+            exponent >>= 1;
+            if (exponent > 0)
+                factor = checked(factor * factor);
+        }
+
+        return result;
+    }
+}
+```
+
+**Example:** `long value = FastExponentiationAlgorithm.Power(3, 5); // 243`
+
+### 10.4 Euclidean GCD and LCM
+
+**Why it exists / problem it solves:** The Euclidean algorithm finds a greatest common divisor without factoring either number. GCD and LCM support ratios, fractions, periodic schedules, and divisibility checks.
+
+**Time:** O(log(min(a, b))). **Space:** O(1).
+
+```csharp
+public static class GreatestCommonDivisorAlgorithm
+{
+    public static long Gcd(long first, long second)
+    {
+        first = Math.Abs(first);
+        second = Math.Abs(second);
+
+        while (second != 0)
+        {
+            (first, second) = (second, first % second);
+        }
+
+        return first;
+    }
+
+    public static long Lcm(long first, long second)
+    {
+        if (first == 0 || second == 0)
+            return 0;
+
+        return checked(Math.Abs(first / Gcd(first, second) * second));
+    }
+}
+```
+
+**Example:** `long gcd = GreatestCommonDivisorAlgorithm.Gcd(54, 24); // 6`
+
+### 10.5 Sieve of Eratosthenes
+
+**Why it exists / problem it solves:** Testing every number independently repeats divisibility work. The sieve marks multiples in one shared pass to generate all primes up to a limit.
+
+**Time:** O(n log log n). **Space:** O(n).
+
+```csharp
+public static class SieveOfEratosthenesAlgorithm
+{
+    public static int[] FindPrimes(int maximum)
+    {
+        if (maximum < 0)
+            throw new ArgumentOutOfRangeException(nameof(maximum));
+        if (maximum < 2)
+            return [];
+
+        var isPrime = Enumerable.Repeat(true, maximum + 1).ToArray();
+        isPrime[0] = false;
+        isPrime[1] = false;
+
+        for (int candidate = 2; candidate <= maximum / candidate; candidate++)
+        {
+            if (!isPrime[candidate])
+                continue;
+
+            for (int multiple = candidate * candidate;
+                 multiple <= maximum;
+                 multiple += candidate)
+            {
+                isPrime[multiple] = false;
+            }
+        }
+
+        return Enumerable.Range(2, maximum - 1)
+            .Where(number => isPrime[number])
+            .ToArray();
+    }
+}
+```
+
+**Example:** `int[] primes = SieveOfEratosthenesAlgorithm.FindPrimes(10); // [2, 3, 5, 7]`
+
+### 10.6 Prefix Sums
+
+**Why it exists / problem it solves:** A prefix-sum array performs one preprocessing pass so repeated range-sum queries can be answered without rescanning each range.
+
+**Build time:** O(n). **Query time:** O(1). **Space:** O(n).
+
+```csharp
+public sealed class PrefixSum
+{
+    private readonly long[] prefix;
+
+    public PrefixSum(int[] numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        prefix = new long[numbers.Length + 1];
+        for (int index = 0; index < numbers.Length; index++)
+            prefix[index + 1] = prefix[index] + numbers[index];
+    }
+
+    public long RangeSum(int startInclusive, int endExclusive)
+    {
+        if (startInclusive < 0
+            || endExclusive < startInclusive
+            || endExclusive >= prefix.Length)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+
+        return prefix[endExclusive] - prefix[startInclusive];
+    }
+}
+```
+
+**Example:** `var sums = new PrefixSum([2, 4, 6, 8]); long range = sums.RangeSum(1, 3); // 10`
+
+---
+
+## Part 11: Linked List Algorithms
+
+Linked-list algorithms build pointer-manipulation skills for data that is connected by references rather than stored contiguously.
+
+**Shared node type:**
+
+```csharp
+public sealed class ListNode
+{
+    public ListNode(int value, ListNode? next = null)
+    {
+        Value = value;
+        Next = next;
+    }
+
+    public int Value { get; set; }
+    public ListNode? Next { get; set; }
+}
+```
+
+### 11.1 Reverse a Singly Linked List
+
+**Why it exists / problem it solves:** Reversal changes link direction without allocating another list. The same pointer-rewiring technique appears in list transformations and in-place data processing.
+
+**Time:** O(n). **Space:** O(1).
+
+```csharp
+public static class ReverseLinkedListAlgorithm
+{
+    public static ListNode? Reverse(ListNode? head)
+    {
+        ListNode? previous = null;
+        ListNode? current = head;
+
+        while (current is not null)
+        {
+            ListNode? next = current.Next;
+            current.Next = previous;
+            previous = current;
+            current = next;
+        }
+
+        return previous;
+    }
+}
+```
+
+**Example:** `ListNode? reversed = ReverseLinkedListAlgorithm.Reverse(new ListNode(1, new ListNode(2, new ListNode(3))));`
+
+### 11.2 Find the Middle Node
+
+**Why it exists / problem it solves:** A fast pointer moving twice as quickly as a slow pointer locates the middle in one pass without first counting nodes.
+
+**Time:** O(n). **Space:** O(1).
+
+```csharp
+public static class MiddleLinkedListNodeAlgorithm
+{
+    public static ListNode? Find(ListNode? head)
+    {
+        ListNode? slow = head;
+        ListNode? fast = head;
+
+        while (fast?.Next is not null)
+        {
+            slow = slow!.Next;
+            fast = fast.Next.Next;
+        }
+
+        return slow;
+    }
+}
+```
+
+**Example:** `ListNode? middle = MiddleLinkedListNodeAlgorithm.Find(head);`
+
+### 11.3 Floyd's Cycle Detection
+
+**Why it exists / problem it solves:** A slow and fast pointer must eventually meet if a linked list contains a cycle. This detects cycles without the O(n) memory required by a visited set.
+
+**Time:** O(n). **Space:** O(1).
+
+```csharp
+public static class LinkedListCycleAlgorithm
+{
+    public static bool HasCycle(ListNode? head)
+    {
+        ListNode? slow = head;
+        ListNode? fast = head;
+
+        while (fast?.Next is not null)
+        {
+            slow = slow!.Next;
+            fast = fast.Next.Next;
+
+            if (ReferenceEquals(slow, fast))
+                return true;
+        }
+
+        return false;
+    }
+}
+```
+
+**Example:**
+
+```csharp
+var first = new ListNode(1);
+var second = new ListNode(2);
+first.Next = second;
+second.Next = first;
+bool hasCycle = LinkedListCycleAlgorithm.HasCycle(first); // true
+```
+
+### 11.4 Merge Two Sorted Linked Lists
+
+**Why it exists / problem it solves:** Merging combines two ordered streams without sorting them again. It is the central combine step of Merge Sort for linked lists.
+
+**Time:** O(n + m). **Space:** O(1) auxiliary.
+
+```csharp
+public static class MergeSortedLinkedListsAlgorithm
+{
+    public static ListNode? Merge(ListNode? first, ListNode? second)
+    {
+        var sentinel = new ListNode(0);
+        ListNode tail = sentinel;
+
+        while (first is not null && second is not null)
+        {
+            if (first.Value <= second.Value)
+            {
+                tail.Next = first;
+                first = first.Next;
+            }
+            else
+            {
+                tail.Next = second;
+                second = second.Next;
+            }
+
+            tail = tail.Next;
+        }
+
+        tail.Next = first ?? second;
+        return sentinel.Next;
+    }
+}
+```
+
+**Example:** `ListNode? merged = MergeSortedLinkedListsAlgorithm.Merge(firstSortedList, secondSortedList);`
+
+---
+
+## Part 12: Dynamic Programming
+
+Dynamic programming solves problems with overlapping subproblems by storing earlier results instead of recomputing them.
+
+### 12.1 Climbing Stairs
+
+**Why it exists / problem it solves:** This is the smallest useful DP model: the number of ways to reach a step depends on the two preceding steps. It teaches state transitions and space optimization.
+
+**Time:** O(n). **Space:** O(1).
+
+```csharp
+public static class ClimbingStairsAlgorithm
+{
+    public static long CountWays(int stepCount)
+    {
+        if (stepCount < 0)
+            throw new ArgumentOutOfRangeException(nameof(stepCount));
+
+        if (stepCount <= 1)
+            return 1;
+
+        long twoStepsBack = 1;
+        long oneStepBack = 1;
+
+        for (int step = 2; step <= stepCount; step++)
+        {
+            long current = checked(oneStepBack + twoStepsBack);
+            twoStepsBack = oneStepBack;
+            oneStepBack = current;
+        }
+
+        return oneStepBack;
+    }
+}
+```
+
+**Example:** `long ways = ClimbingStairsAlgorithm.CountWays(5); // 8`
+
+### 12.2 Coin Change
+
+**Why it exists / problem it solves:** Coin Change finds the fewest reusable choices needed to reach a target. It models resource allocation, denomination, and minimum-step problems.
+
+**Time:** O(amount × number of coins). **Space:** O(amount).
+
+```csharp
+public static class CoinChangeAlgorithm
+{
+    public static int MinimumCoins(int[] coins, int amount)
+    {
+        ArgumentNullException.ThrowIfNull(coins);
+
+        if (amount < 0)
+            throw new ArgumentOutOfRangeException(nameof(amount));
+        if (coins.Any(coin => coin <= 0))
+            throw new ArgumentException("Coin values must be positive.");
+
+        int unreachable = amount + 1;
+        int[] minimum = Enumerable.Repeat(unreachable, amount + 1).ToArray();
+        minimum[0] = 0;
+
+        for (int currentAmount = 1; currentAmount <= amount; currentAmount++)
+        {
+            foreach (int coin in coins)
+            {
+                if (coin <= currentAmount)
+                {
+                    minimum[currentAmount] = Math.Min(
+                        minimum[currentAmount],
+                        minimum[currentAmount - coin] + 1);
+                }
+            }
+        }
+
+        return minimum[amount] == unreachable ? -1 : minimum[amount];
+    }
+}
+```
+
+**Example:** `int minimum = CoinChangeAlgorithm.MinimumCoins([1, 2, 5], 11); // 3`
+
+### 12.3 Longest Common Subsequence
+
+**Why it exists / problem it solves:** LCS finds the longest ordered sequence shared by two inputs even when characters are skipped. It underpins diff tools, sequence comparison, and version analysis.
+
+**Time:** O(n × m). **Space:** O(n × m).
+
+```csharp
+public static class LongestCommonSubsequenceAlgorithm
+{
+    public static int FindLength(string first, string second)
+    {
+        ArgumentNullException.ThrowIfNull(first);
+        ArgumentNullException.ThrowIfNull(second);
+
+        var lengths = new int[first.Length + 1, second.Length + 1];
+
+        for (int firstIndex = 1; firstIndex <= first.Length; firstIndex++)
+        {
+            for (int secondIndex = 1; secondIndex <= second.Length; secondIndex++)
+            {
+                lengths[firstIndex, secondIndex] =
+                    first[firstIndex - 1] == second[secondIndex - 1]
+                        ? lengths[firstIndex - 1, secondIndex - 1] + 1
+                        : Math.Max(
+                            lengths[firstIndex - 1, secondIndex],
+                            lengths[firstIndex, secondIndex - 1]);
+            }
+        }
+
+        return lengths[first.Length, second.Length];
+    }
+}
+```
+
+**Example:** `int length = LongestCommonSubsequenceAlgorithm.FindLength("abcde", "ace"); // 3`
+
+### 12.4 Edit Distance
+
+**Why it exists / problem it solves:** Edit Distance measures how many insertions, deletions, and replacements transform one string into another. It supports fuzzy matching, spell checking, and similarity scoring.
+
+**Time:** O(n × m). **Space:** O(n × m).
+
+```csharp
+public static class EditDistanceAlgorithm
+{
+    public static int Calculate(string source, string target)
+    {
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(target);
+
+        var distance = new int[source.Length + 1, target.Length + 1];
+
+        for (int sourceLength = 0; sourceLength <= source.Length; sourceLength++)
+            distance[sourceLength, 0] = sourceLength;
+
+        for (int targetLength = 0; targetLength <= target.Length; targetLength++)
+            distance[0, targetLength] = targetLength;
+
+        for (int sourceIndex = 1; sourceIndex <= source.Length; sourceIndex++)
+        {
+            for (int targetIndex = 1; targetIndex <= target.Length; targetIndex++)
+            {
+                if (source[sourceIndex - 1] == target[targetIndex - 1])
+                {
+                    distance[sourceIndex, targetIndex] =
+                        distance[sourceIndex - 1, targetIndex - 1];
+                }
+                else
+                {
+                    int insert = distance[sourceIndex, targetIndex - 1];
+                    int delete = distance[sourceIndex - 1, targetIndex];
+                    int replace = distance[sourceIndex - 1, targetIndex - 1];
+                    distance[sourceIndex, targetIndex] =
+                        1 + Math.Min(insert, Math.Min(delete, replace));
+                }
+            }
+        }
+
+        return distance[source.Length, target.Length];
+    }
+}
+```
+
+**Example:** `int edits = EditDistanceAlgorithm.Calculate("kitten", "sitting"); // 3`
+
+---
+
+## Part 13: Greedy Algorithms
+
+Greedy algorithms commit to the best local choice when the problem structure guarantees that this produces a globally optimal result.
+
+### 13.1 Merge Intervals
+
+**Why it exists / problem it solves:** Overlapping ranges often represent the same continuous reservation, event, or coverage period. Sorting by start time makes every possible overlap adjacent.
+
+**Time:** O(n log n). **Space:** O(n).
+
+```csharp
+public static class MergeIntervalsAlgorithm
+{
+    public static int[][] Merge(int[][] intervals)
+    {
+        ArgumentNullException.ThrowIfNull(intervals);
+
+        if (intervals.Any(interval => interval is null || interval.Length != 2))
+            throw new ArgumentException("Every interval must contain start and end.");
+        if (intervals.Length == 0)
+            return [];
+
+        int[][] sorted = intervals
+            .Select(interval => new[] { interval[0], interval[1] })
+            .OrderBy(interval => interval[0])
+            .ToArray();
+
+        var merged = new List<int[]> { sorted[0] };
+
+        for (int index = 1; index < sorted.Length; index++)
+        {
+            int[] previous = merged[^1];
+            int[] current = sorted[index];
+
+            if (current[0] <= previous[1])
+                previous[1] = Math.Max(previous[1], current[1]);
+            else
+                merged.Add(current);
+        }
+
+        return [.. merged];
+    }
+}
+```
+
+**Example:** `int[][] merged = MergeIntervalsAlgorithm.Merge([[1, 3], [2, 6], [8, 10]]); // [1,6], [8,10]`
+
+### 13.2 Activity Selection
+
+**Why it exists / problem it solves:** Selecting the activity that finishes earliest leaves the most room for future activities. This maximizes the number of non-overlapping intervals.
+
+**Time:** O(n log n). **Space:** O(n).
+
+```csharp
+public static class ActivitySelectionAlgorithm
+{
+    public static IReadOnlyList<(int Start, int End)> SelectMaximum(
+        IEnumerable<(int Start, int End)> activities)
+    {
+        ArgumentNullException.ThrowIfNull(activities);
+
+        var ordered = activities.OrderBy(activity => activity.End).ToArray();
+        var selected = new List<(int Start, int End)>();
+        int lastEnd = int.MinValue;
+
+        foreach (var activity in ordered)
+        {
+            if (activity.Start < lastEnd)
+                continue;
+
+            selected.Add(activity);
+            lastEnd = activity.End;
+        }
+
+        return selected;
+    }
+}
+```
+
+**Example:** `var selected = ActivitySelectionAlgorithm.SelectMaximum([(1, 3), (2, 5), (4, 7)]);`
+
+---
+
+## Part 14: Backtracking
+
+Backtracking explores a decision tree with a reusable cycle: choose, explore, then undo the choice before trying the next option.
+
+### 14.1 Subsets
+
+**Why it exists / problem it solves:** Subset generation must represent every include/exclude choice. Backtracking builds each result incrementally without manually writing nested loops.
+
+**Time:** O(n × 2ⁿ), including copied output. **Space:** O(n) recursion depth, excluding results.
+
+```csharp
+public static class SubsetsAlgorithm
+{
+    public static IReadOnlyList<IReadOnlyList<int>> Generate(int[] numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        var results = new List<IReadOnlyList<int>>();
+        var current = new List<int>();
+        Explore(0);
+        return results;
+
+        void Explore(int startIndex)
+        {
+            results.Add(current.ToArray());
+
+            for (int index = startIndex; index < numbers.Length; index++)
+            {
+                current.Add(numbers[index]); // Choose
+                Explore(index + 1);          // Explore
+                current.RemoveAt(current.Count - 1); // Undo
+            }
+        }
+    }
+}
+```
+
+**Example:** `var subsets = SubsetsAlgorithm.Generate([1, 2]); // [], [1], [1,2], [2]`
+
+### 14.2 Permutations
+
+**Why it exists / problem it solves:** Permutation generation explores every possible ordering while tracking which values are already used in the current ordering.
+
+**Time:** O(n × n!). **Space:** O(n) recursion state, excluding results.
+
+```csharp
+public static class PermutationsAlgorithm
+{
+    public static IReadOnlyList<IReadOnlyList<int>> Generate(int[] numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        var results = new List<IReadOnlyList<int>>();
+        var current = new List<int>(numbers.Length);
+        var used = new bool[numbers.Length];
+        Explore();
+        return results;
+
+        void Explore()
+        {
+            if (current.Count == numbers.Length)
+            {
+                results.Add(current.ToArray());
+                return;
+            }
+
+            for (int index = 0; index < numbers.Length; index++)
+            {
+                if (used[index])
+                    continue;
+
+                used[index] = true;
+                current.Add(numbers[index]);
+                Explore();
+                current.RemoveAt(current.Count - 1);
+                used[index] = false;
+            }
+        }
+    }
+}
+```
+
+**Example:** `var permutations = PermutationsAlgorithm.Generate([1, 2, 3]); // 6 results`
 
 ---
 
@@ -765,21 +2837,33 @@ When you see this → think this:
 | Prefix lookups on strings | Trie |
 | Many lookups by key | Hash map |
 | All pairs too slow → need better | Sort + two pointers, or hash |
+| Many range-sum queries | Prefix sums |
+| Next greater/smaller value | Monotonic stack |
+| First-in/first-out or window maximum | Queue / deque |
+| Pointer rewiring or cycle in a list | Linked-list pointers / Floyd |
+| Repeated overlapping subproblems | Dynamic programming |
+| Locally best choice can be proven optimal | Greedy |
+| Generate all valid choices | Backtracking |
+| Overlapping intervals | Sort + merge intervals |
 
 ---
 
-## 8-Week Study Plan
+## 12-Week Study Plan
 
 | Week | Focus | Problems |
 |------|-------|----------|
-| 1 | Linear & binary search | 15 easy |
-| 2 | Two pointers, sliding window | 15 easy/medium |
-| 3 | Hash maps, stacks, queues | 15 medium |
-| 4 | Trees (traversals, BST) | 15 medium |
-| 5 | Graphs: BFS, DFS | 15 medium |
-| 6 | Graphs: topo sort, union-find, Dijkstra | 10 medium |
-| 7 | Heaps, sorting applications | 10 medium |
-| 8 | Strings, tries, mixed review | 10 medium + 5 timed |
+| 1 | Searching and core sorting | 12 easy |
+| 2 | Two pointers, sliding windows, prefix sums | 12 easy/medium |
+| 3 | Hash maps, stacks, queues, deques | 12 medium |
+| 4 | Linked lists | 10 easy/medium |
+| 5 | Trees: traversals and BST operations | 12 medium |
+| 6 | Graphs: BFS, DFS, components | 12 medium |
+| 7 | Graphs: topological sort, Union-Find, shortest paths | 10 medium |
+| 8 | Heaps and string algorithms | 10 medium |
+| 9 | Dynamic programming: one-dimensional states | 10 medium |
+| 10 | Dynamic programming: strings and two-dimensional states | 8 medium |
+| 11 | Greedy and backtracking | 10 medium |
+| 12 | Mixed review and timed practice | 10 medium + 5 timed |
 
 **Daily routine (45–60 min):**
 
@@ -804,9 +2888,13 @@ When you see this → think this:
 
 **Searching:** Binary Search, Search Insert Position, Find Minimum in Rotated Sorted Array
 
+**Sorting and selection:** Sort Colors, Kth Largest Element, Merge Intervals
+
 **Two pointers:** Two Sum II, 3Sum, Container With Most Water
 
 **Sliding window:** Longest Substring Without Repeating Characters, Minimum Size Subarray Sum
+
+**Prefix sums and hashing:** Subarray Sum Equals K, Range Sum Query, Contains Duplicate
 
 **Stack:** Valid Parentheses, Daily Temperatures, Largest Rectangle in Histogram
 
@@ -817,6 +2905,14 @@ When you see this → think this:
 **Heap:** Kth Largest Element, Top K Frequent Elements
 
 **Union-Find:** Redundant Connection, Accounts Merge
+
+**Linked lists:** Reverse Linked List, Linked List Cycle, Merge Two Sorted Lists
+
+**Dynamic programming:** Climbing Stairs, Coin Change, Longest Common Subsequence, Edit Distance
+
+**Greedy:** Merge Intervals, Non-overlapping Intervals
+
+**Backtracking:** Subsets, Permutations, Combination Sum
 
 ---
 
@@ -829,3 +2925,5 @@ Before moving on from an algorithm, you should be able to:
 - [ ] Implement it from scratch in C#
 - [ ] Name 2 real problems where it applies
 - [ ] Identify one common mistake (e.g. binary search off-by-one, DFS without visited set)
+- [ ] Explain why this paradigm fits better than brute force
+- [ ] Test empty, single-item, duplicate, and boundary inputs
