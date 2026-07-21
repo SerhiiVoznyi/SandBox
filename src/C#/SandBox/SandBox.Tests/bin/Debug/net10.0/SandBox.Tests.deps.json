@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v10.0": {
       "SandBox.Tests/1.0.0": {
         "dependencies": {
+          "Algorithms": "1.0.0",
           "Microsoft.NET.Test.Sdk": "17.14.1",
           "xunit": "2.9.3"
         },
@@ -329,6 +330,14 @@
             "fileVersion": "2.9.3.0"
           }
         }
+      },
+      "Algorithms/1.0.0": {
+        "runtime": {
+          "Algorithms.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -414,6 +423,11 @@
       "sha512": "sha512-yMb6vMESlSrE3Wfj7V6cjQ3S4TXdXpRqYeNEI3zsX31uTsGMJjEw6oD5F5u1cHnMptjhEECnmZSsPxB6ChZHDQ==",
       "path": "xunit.extensibility.execution/2.9.3",
       "hashPath": "xunit.extensibility.execution.2.9.3.nupkg.sha512"
+    },
+    "Algorithms/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

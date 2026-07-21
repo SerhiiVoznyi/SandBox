@@ -1,0 +1,12 @@
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\bin\Debug\net10.0\Algorithms.deps.json
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\bin\Debug\net10.0\Algorithms.dll
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\bin\Debug\net10.0\Algorithms.pdb
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\obj\Debug\net10.0\Algorithms.GeneratedMSBuildEditorConfig.editorconfig
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\obj\Debug\net10.0\Algorithms.AssemblyInfoInputs.cache
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\obj\Debug\net10.0\Algorithms.AssemblyInfo.cs
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\obj\Debug\net10.0\Algorithms.csproj.CoreCompileInputs.cache
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\obj\Debug\net10.0\Algorithms.sourcelink.json
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\obj\Debug\net10.0\Algorithms.dll
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\obj\Debug\net10.0\refint\Algorithms.dll
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\obj\Debug\net10.0\Algorithms.pdb
+c:\Development\Private\SandBox\src\C#\SandBox\Algorithms\obj\Debug\net10.0\ref\Algorithms.dll
