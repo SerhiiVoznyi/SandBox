@@ -15,17 +15,17 @@ All code examples use **C# 12 / .NET 8** with implicit global usings enabled.
    - [Binary Search](#12-binary-search)
    - [Binary Search Variants](#13-binary-search-variants)
 4. [Part 2: Sorting Algorithms](#part-2-sorting-algorithms)
-   - [Bubble Sort](#bubble-sort)
-   - [Selection Sort](#selection-sort)
-   - [Merge Sort](#21-merge-sort-must-know)
-   - [Quick Sort](#22-quick-sort-must-know)
-   - [Built-in Sort](#23-built-in-sort-in-interviews)
-   - [Insertion Sort](#24-insertion-sort)
-   - [Heap Sort](#25-heap-sort)
-   - [Dutch National Flag](#26-dutch-national-flag)
-   - [Quickselect](#27-quickselect)
-   - [Counting Sort](#counting-sort)
-   - [Radix Sort](#radix-sort)
+   - [Bubble Sort](#21-bubble-sort)
+   - [Selection Sort](#22-selection-sort)
+   - [Merge Sort](#23-merge-sort-must-know)
+   - [Quick Sort](#24-quick-sort-must-know)
+   - [Built-in Sort](#25-built-in-sort-in-interviews)
+   - [Insertion Sort](#26-insertion-sort)
+   - [Heap Sort](#27-heap-sort)
+   - [Dutch National Flag](#28-dutch-national-flag)
+   - [Quickselect](#29-quickselect)
+   - [Counting Sort](#210-counting-sort)
+   - [Radix Sort](#211-radix-sort)
 5. [Part 3: Two Pointers & Sliding Window](#part-3-two-pointers--sliding-window)
    - [Two Pointers](#31-two-pointers)
    - [Sliding Window](#32-sliding-window)
@@ -58,8 +58,8 @@ All code examples use **C# 12 / .NET 8** with implicit global usings enabled.
     - [Palindrome with Two Pointers](#93-palindrome-with-two-pointers)
     - [Common String Problems](#94-common-problems)
     - [Trie](#95-trie-prefix-tree)
-    - [Rolling Hash / Rabin-Karp](#rolling-hash--rabin-karp)
-    - [Prefix Function / KMP](#prefix-function--kmp)
+    - [Rolling Hash / Rabin-Karp](#96-rolling-hash--rabin-karp)
+    - [Prefix Function / KMP](#97-prefix-function--kmp)
 12. [Part 10: Classic Misc Algorithms](#part-10-classic-misc-algorithms)
     - [Kadane's Algorithm](#101-kadanes-algorithm)
     - [Floyd's Cycle Detection](#102-floyds-cycle-detection)
@@ -398,8 +398,8 @@ Know **what each does**, **complexity**, and **stability** (stable = equal eleme
 
 Sorting algorithms exist to put data into a predictable order so that later operations—such as searching, grouping, comparing, and detecting duplicates—become easier or faster. No single sorting algorithm is best for every situation:
 
-- <a id="bubble-sort"></a>**Bubble Sort:** Repeatedly swaps adjacent out-of-order values. It mainly exists as a teaching tool and can be acceptable for tiny inputs.
-- <a id="selection-sort"></a>**Selection Sort:** Repeatedly selects the smallest remaining value. It is useful when minimizing the number of writes or swaps matters more than comparisons.
+- **Bubble Sort:** Repeatedly swaps adjacent out-of-order values. It mainly exists as a teaching tool and can be acceptable for tiny inputs.
+- **Selection Sort:** Repeatedly selects the smallest remaining value. It is useful when minimizing the number of writes or swaps matters more than comparisons.
 - **Insertion Sort:** Inserts each value into an already-sorted prefix. It solves small or nearly sorted inputs efficiently and is often used inside hybrid sorting algorithms.
 - **Merge Sort:** Splits data, sorts each half, and merges the results. It provides predictable O(n log n) performance and stable ordering.
 - **Quick Sort:** Partitions values around a pivot. It is designed for fast, in-place, general-purpose sorting with good average performance.
@@ -418,7 +418,90 @@ Sorting algorithms exist to put data into a predictable order so that later oper
 | Counting Sort | O(n+k) | O(n+k) | O(n+k) | O(k) | Yes | Small integer range |
 | Radix Sort | O(d·(n+k)) | O(d·(n+k)) | O(d·(n+k)) | O(n+k) | Yes | Fixed-width digits |
 
-### 2.1 Merge Sort (must know)
+### 2.1 Bubble Sort
+
+[↑ Content](#content)
+
+**Why it exists / problem it solves:** Bubble Sort repeatedly steps through the collection, swapping adjacent elements that are out of order, so each pass "bubbles" the next-largest remaining value toward the end. It has poor performance on real workloads and mainly exists as a teaching example of a simple, stable comparison sort; an early-exit flag lets it finish faster on already-sorted or nearly-sorted input.
+
+**Time:** O(n) best case (already sorted), O(n²) average/worst case. **Space:** O(1). **Stable:** Yes.
+
+```csharp
+public static class BubbleSortAlgorithm
+{
+    public static void Sort(int[] numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        for (int pass = 0; pass < numbers.Length - 1; pass++)
+        {
+            bool swapped = false;
+
+            for (int index = 0; index < numbers.Length - 1 - pass; index++)
+            {
+                if (numbers[index] > numbers[index + 1])
+                {
+                    (numbers[index], numbers[index + 1]) =
+                        (numbers[index + 1], numbers[index]);
+                    swapped = true;
+                }
+            }
+
+            if (!swapped)
+                break;
+        }
+    }
+}
+```
+
+**Example:** `int[] values = [5, 2, 4, 3]; BubbleSortAlgorithm.Sort(values); // [2, 3, 4, 5]`
+
+**Use when:** Teaching purposes or tiny/nearly sorted inputs only; prefer Insertion Sort or a built-in sort otherwise.
+
+---
+
+### 2.2 Selection Sort
+
+[↑ Content](#content)
+
+**Why it exists / problem it solves:** Selection Sort repeatedly scans the unsorted remainder for its smallest value and swaps it into place. It performs at most n swaps, which makes it attractive when writes are expensive (e.g. flash memory) even though comparisons stay at O(n²).
+
+**Time:** O(n²) best/average/worst case. **Space:** O(1). **Stable:** No (the swap can move an equal element past another equal element).
+
+```csharp
+public static class SelectionSortAlgorithm
+{
+    public static void Sort(int[] numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        for (int boundary = 0; boundary < numbers.Length - 1; boundary++)
+        {
+            int smallestIndex = boundary;
+
+            for (int index = boundary + 1; index < numbers.Length; index++)
+            {
+                if (numbers[index] < numbers[smallestIndex])
+                    smallestIndex = index;
+            }
+
+            if (smallestIndex != boundary)
+            {
+                (numbers[boundary], numbers[smallestIndex]) =
+                    (numbers[smallestIndex], numbers[boundary]);
+            }
+        }
+    }
+}
+```
+
+**Example:** `int[] values = [5, 2, 4, 3]; SelectionSortAlgorithm.Sort(values); // [2, 3, 4, 5]`
+
+**Use when:** Minimizing the number of swaps matters more than the number of comparisons; otherwise prefer Insertion Sort.
+
+---
+
+### 2.3 Merge Sort (must know)
 
 [↑ Content](#content)
 
@@ -489,7 +572,7 @@ public static class MergeSortAlgorithm
 
 ---
 
-### 2.2 Quick Sort (must know)
+### 2.4 Quick Sort (must know)
 
 [↑ Content](#content)
 
@@ -551,7 +634,7 @@ QuickSortAlgorithm.Sort(numbers); // numbers is now [1, 2, 5, 8]
 
 ---
 
-### 2.3 Built-in Sort in Interviews
+### 2.5 Built-in Sort in Interviews
 
 [↑ Content](#content)
 
@@ -561,7 +644,7 @@ In real coding interviews, use built-in sorting (`Array.Sort()`, `List<T>.Sort()
 
 **Practice:** Sort colors (Dutch flag), merge intervals, largest number from array, k-th largest element.
 
-### 2.4 Insertion Sort
+### 2.6 Insertion Sort
 
 [↑ Content](#content)
 
@@ -595,7 +678,7 @@ public static class InsertionSortAlgorithm
 
 **Example:** `int[] values = [5, 2, 4, 3]; InsertionSortAlgorithm.Sort(values); // [2, 3, 4, 5]`
 
-### 2.5 Heap Sort
+### 2.7 Heap Sort
 
 [↑ Content](#content)
 
@@ -646,7 +729,7 @@ public static class HeapSortAlgorithm
 
 **Example:** `int[] values = [7, 2, 9, 1]; HeapSortAlgorithm.Sort(values); // [1, 2, 7, 9]`
 
-### 2.6 Dutch National Flag
+### 2.8 Dutch National Flag
 
 [↑ Content](#content)
 
@@ -693,7 +776,7 @@ public static class DutchNationalFlagAlgorithm
 
 **Example:** `int[] colors = [2, 0, 1, 2, 0]; DutchNationalFlagAlgorithm.SortZeroOneTwo(colors); // [0, 0, 1, 2, 2]`
 
-### 2.7 Quickselect
+### 2.9 Quickselect
 
 [↑ Content](#content)
 
@@ -755,6 +838,110 @@ public static class QuickselectAlgorithm
 ```
 
 **Example:** `int thirdLargest = QuickselectAlgorithm.FindKthLargest([3, 2, 1, 5, 6, 4], 3); // 4`
+
+---
+
+### 2.10 Counting Sort
+
+[↑ Content](#content)
+
+**Why it exists / problem it solves:** Counting Sort avoids comparisons entirely by counting how many times each value occurs, then reconstructing the output from those counts. It is designed for integers (or integer keys) drawn from a small, known range, where it beats any comparison-based sort.
+
+**Time:** O(n + k), where `k` is the value range. **Space:** O(n + k). **Stable:** Yes.
+
+```csharp
+public static class CountingSortAlgorithm
+{
+    public static int[] Sort(int[] numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        if (numbers.Length == 0)
+            return [];
+
+        int minimum = numbers.Min();
+        int maximum = numbers.Max();
+        int[] counts = new int[maximum - minimum + 1];
+
+        foreach (int number in numbers)
+            counts[number - minimum]++;
+
+        int[] sortedNumbers = new int[numbers.Length];
+        int destination = 0;
+
+        for (int offset = 0; offset < counts.Length; offset++)
+        {
+            for (int occurrence = 0; occurrence < counts[offset]; occurrence++)
+                sortedNumbers[destination++] = offset + minimum;
+        }
+
+        return sortedNumbers;
+    }
+}
+```
+
+**Example:** `int[] sorted = CountingSortAlgorithm.Sort([4, 2, 2, 8, 3, 3, 1]); // [1, 2, 2, 3, 3, 4, 8]`
+
+**Use when:** Integers come from a small, known range (e.g. grades, ages, byte values); avoid it when the range `k` is much larger than `n`.
+
+---
+
+### 2.11 Radix Sort
+
+[↑ Content](#content)
+
+**Why it exists / problem it solves:** Radix Sort sorts fixed-width numbers (or strings) one digit position at a time, using a stable Counting Sort as the subroutine for each digit. It avoids direct value-to-value comparisons, which lets it beat O(n log n) comparison sorts when the number of digits is small relative to `n`.
+
+**Time:** O(d·(n + k)), where `d` is the digit count and `k` is the digit base (10 here). **Space:** O(n + k). **Stable:** Yes.
+
+```csharp
+public static class RadixSortAlgorithm
+{
+    public static int[] Sort(int[] numbers)
+    {
+        ArgumentNullException.ThrowIfNull(numbers);
+
+        if (numbers.Length == 0)
+            return [];
+
+        if (numbers.Any(number => number < 0))
+            throw new ArgumentException("This implementation supports only non-negative integers.");
+
+        int[] sortedNumbers = (int[])numbers.Clone();
+        int maximum = sortedNumbers.Max();
+
+        for (long placeValue = 1; maximum / placeValue > 0; placeValue *= 10)
+            SortByDigit(sortedNumbers, placeValue);
+
+        return sortedNumbers;
+    }
+
+    private static void SortByDigit(int[] numbers, long placeValue)
+    {
+        int[] counts = new int[10];
+
+        foreach (int number in numbers)
+            counts[(number / placeValue) % 10]++;
+
+        for (int digit = 1; digit < 10; digit++)
+            counts[digit] += counts[digit - 1];
+
+        int[] output = new int[numbers.Length];
+
+        for (int index = numbers.Length - 1; index >= 0; index--)
+        {
+            int digit = (int)((numbers[index] / placeValue) % 10);
+            output[--counts[digit]] = numbers[index];
+        }
+
+        Array.Copy(output, numbers, numbers.Length);
+    }
+}
+```
+
+**Example:** `int[] sorted = RadixSortAlgorithm.Sort([170, 45, 75, 90, 802, 24, 2, 66]); // [2, 24, 45, 66, 75, 90, 170, 802]`
+
+**Use when:** Fixed-width non-negative integers or strings where the digit/character count stays small as `n` grows.
 
 ---
 
@@ -2089,8 +2276,8 @@ String algorithms exist because repeatedly comparing characters can become expen
 
 - **Frequency arrays / hash maps:** Count characters so anagrams, duplicates, and character requirements can be checked without repeatedly scanning both strings.
 - **Two pointers on strings:** Compare or transform characters from two positions, which solves palindrome checks, subsequence matching, and in-place-style scans efficiently.
-- <a id="rolling-hash--rabin-karp"></a>**Rolling hash (Rabin-Karp idea):** Updates a substring's hash as the window moves, allowing candidate pattern matches to be found without comparing every character at every position.
-- <a id="prefix-function--kmp"></a>**Prefix function / KMP:** Reuses information from earlier partial matches so substring search does not restart from the next text character after a mismatch.
+- **Rolling hash (Rabin-Karp idea):** Updates a substring's hash as the window moves, allowing candidate pattern matches to be found without comparing every character at every position.
+- **Prefix function / KMP:** Reuses information from earlier partial matches so substring search does not restart from the next text character after a mismatch.
 
 ### 9.2 Anagram with Frequency Counting
 
@@ -2269,6 +2456,135 @@ bool hasPrefix = words.StartsWith("app");    // true
 ```
 
 **Practice:** Implement autocomplete, word search II, longest common prefix.
+
+---
+
+### 9.6 Rolling Hash / Rabin-Karp
+
+[↑ Content](#content)
+
+**Why it exists / problem it solves:** Recomputing a substring's hash from scratch at every position costs O(m) per position. A rolling hash updates the previous window's hash in O(1) by removing the outgoing character's contribution and adding the incoming one, so scanning for a pattern only needs a cheap hash comparison (confirmed with a direct comparison to guard against hash collisions) instead of a full character comparison at every position.
+
+**Time:** O(n + m) average (O(n·m) worst case if many hash collisions occur). **Space:** O(1).
+
+```csharp
+public static class RabinKarpAlgorithm
+{
+    private const long Modulus = 1_000_000_007;
+    private const long Base = 131;
+
+    public static int FindFirstOccurrence(string text, string pattern)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(pattern);
+
+        if (pattern.Length == 0)
+            return 0;
+        if (pattern.Length > text.Length)
+            return -1;
+
+        long patternHash = 0;
+        long windowHash = 0;
+        long highestPlaceValue = 1;
+
+        for (int index = 0; index < pattern.Length; index++)
+        {
+            patternHash = (patternHash * Base + pattern[index]) % Modulus;
+            windowHash = (windowHash * Base + text[index]) % Modulus;
+
+            if (index > 0)
+                highestPlaceValue = highestPlaceValue * Base % Modulus;
+        }
+
+        for (int start = 0; ; start++)
+        {
+            if (windowHash == patternHash
+                && text.AsSpan(start, pattern.Length).SequenceEqual(pattern))
+            {
+                return start;
+            }
+
+            int nextIndex = start + pattern.Length;
+            if (nextIndex >= text.Length)
+                return -1;
+
+            windowHash =
+                (windowHash - text[start] * highestPlaceValue % Modulus + Modulus) % Modulus;
+            windowHash = (windowHash * Base + text[nextIndex]) % Modulus;
+        }
+    }
+}
+```
+
+**Example:** `int index = RabinKarpAlgorithm.FindFirstOccurrence("abcxabcdabcy", "abcd"); // 4`
+
+**Use when:** Substring search, plagiarism/duplicate detection, or comparing many candidate substrings by hash first.
+
+---
+
+### 9.7 Prefix Function / KMP
+
+[↑ Content](#content)
+
+**Why it exists / problem it solves:** Naive substring search can re-scan already-matched characters after a mismatch, costing O(n·m) in the worst case. The Knuth-Morris-Pratt prefix function precomputes, for every prefix of the pattern, the length of the longest proper prefix that is also a suffix. On a mismatch, that value tells the search exactly how far it can safely resume without ever re-reading a text character, guaranteeing O(n + m) total time.
+
+**Time:** O(n + m). **Space:** O(m).
+
+```csharp
+public static class KnuthMorrisPrattAlgorithm
+{
+    public static int[] BuildPrefixFunction(string pattern)
+    {
+        ArgumentNullException.ThrowIfNull(pattern);
+
+        int[] prefixLengths = new int[pattern.Length];
+        int matchedLength = 0;
+
+        for (int index = 1; index < pattern.Length; index++)
+        {
+            while (matchedLength > 0 && pattern[index] != pattern[matchedLength])
+                matchedLength = prefixLengths[matchedLength - 1];
+
+            if (pattern[index] == pattern[matchedLength])
+                matchedLength++;
+
+            prefixLengths[index] = matchedLength;
+        }
+
+        return prefixLengths;
+    }
+
+    public static int FindFirstOccurrence(string text, string pattern)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        ArgumentNullException.ThrowIfNull(pattern);
+
+        if (pattern.Length == 0)
+            return 0;
+
+        int[] prefixLengths = BuildPrefixFunction(pattern);
+        int matchedLength = 0;
+
+        for (int index = 0; index < text.Length; index++)
+        {
+            while (matchedLength > 0 && text[index] != pattern[matchedLength])
+                matchedLength = prefixLengths[matchedLength - 1];
+
+            if (text[index] == pattern[matchedLength])
+                matchedLength++;
+
+            if (matchedLength == pattern.Length)
+                return index - pattern.Length + 1;
+        }
+
+        return -1;
+    }
+}
+```
+
+**Example:** `int index = KnuthMorrisPrattAlgorithm.FindFirstOccurrence("abxabcabcaby", "abcaby"); // 6`
+
+**Use when:** Guaranteed-linear substring search without relying on hashing, or whenever the pattern is searched repeatedly against different texts (precompute once, reuse the prefix function).
 
 ---
 
