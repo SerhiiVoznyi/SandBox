@@ -300,26 +300,73 @@ These optimizations require **profile data** to be at their best, which is why t
 
 [↑ Content](#content)
 
-**DATAS** (Dynamic Adaptation To Application Sizes) sizes the server GC heap to the application's actual live data rather than to the machine's core count. It became the default in .NET 9 and is tuned further in .NET 10.
+The .NET **garbage collector** is a tracing, generational, compacting collector. You allocate with `new`; you almost never free. The GC starts from **roots** (locals, statics, CPU registers, GC handles), follows object references, and reclaims anything unreachable. The **generational hypothesis** is the design bet: most objects die young, so collecting a small nursery frequently is cheaper than scanning the whole heap.
+
+| Heap / generation | Role |
+|-------------------|------|
+| **Gen0** | Nursery. Collected often. Cheap when survival is low |
+| **Gen1** | Buffer between nursery and old generation |
+| **Gen2** | Long-lived data. Expensive; usually collected in the background |
+| **LOH** | Large Object Heap — objects ≥ 85,000 bytes; not compacted by default |
+| **POH** | Pinned Object Heap — keeps pins off the compacting small-object heap |
+
+Two modes:
+
+- **Workstation GC** — one heap, one collecting thread (plus background). Default for client apps. Lower memory, longer pauses under allocation pressure.
+- **Server GC** — one heap per core, parallel collection. Default for ASP.NET. Historically sized by **core count**, not by how much live data the process actually holds.
+
+A **write barrier** is the tax that makes generational collection correct. If an old object starts pointing at a young one, a gen0 collection that only scanned gen0 would miss that reference and collect a live object. The JIT therefore inserts a barrier on every reference-field store so the GC can mark a **card** (and, with regions, a more precise dirty bit) and know which old-gen areas to re-scan. Barriers run on the mutator path; they are not free.
+
+**.NET 10 GC updates**
+
+.NET 10 is the first **LTS** that ships **DATAS** (Dynamic Adaptation To Application Sizes) as the default Server GC policy. DATAS itself arrived as opt-in in .NET 8 and became default in .NET 9; most fleets will feel it for the first time on this upgrade. The other headline is **Arm64 write barriers** catching up with x64, plus JIT work that **elides barriers** when it can prove a store cannot hit the heap.
+
+**DATAS** sizes the heap to **live data size (LDS)** — roughly the old-generation occupancy after fragmentation — rather than to core count. It is a hybrid of the two classic modes: it starts with one heap (like workstation), grows toward core count under allocation pressure (like server), and shrinks again when the workload lightens.
 
 | Before DATAS | With DATAS |
 |--------------|------------|
 | Server GC allocated heaps per core | Heap count and size adapt to live data |
 | A small service on a 64-core host reserved a large heap | Heap grows and shrinks with the workload |
+| Same app, different machines → wildly different heaps | Similar heaps for similar live data, regardless of core count |
 | Container memory limits were easy to blow | Far better density in containers |
 
+How it keeps a bound without collapsing throughput:
+
+1. **BCD** (Budget Computed via DATAS) caps the gen0 allocation budget as a function of LDS — the heap cannot grow unbounded relative to long-lived data.
+2. Within that cap, DATAS targets a **TCP** (Throughput Cost Percentage) of **2%** by default — GC pause time plus time allocating threads spend waiting. A lighter workload gets a smaller gen0 budget so memory comes back; a heavier one is allowed to spend up to the BCD.
+3. Heap count is adjusted automatically. Setting `GCHeapCount` yourself **disables DATAS**, because a fixed heap count is the opposite of adapting.
+
 ```bash
-DOTNET_GCDynamicAdaptationMode=1   # enable (default)
+DOTNET_GCDynamicAdaptationMode=1   # enable (default on Server GC)
 DOTNET_GCDynamicAdaptationMode=0   # disable, restore classic server GC sizing
+# Optional: raise the TCP target if you want more memory / fewer GCs
+# GCDTargetTCP=5
 ```
 
-**Arm64 write barriers:** the GC inserts write barriers before reference-field writes so it can track cross-generational references. .NET 10 brings the x64 approach of dynamically selecting a barrier implementation to Arm64, with more precise region handling. Microsoft's benchmarks report **GC pause improvements from 8% to over 20%** on Arm64 — meaningful for Graviton/Ampere fleets.
+**Arm64 write barriers.** On x64 the runtime has long used a **WriteBarrierManager**: many specialized `JIT_WriteBarrier` implementations, with the GC copying the right one over the global helper as GC state changes. .NET 10 brings that design to Arm64 — about ten variants, including more precise **region** marking (bit or byte in the card table) instead of one universal helper. The default is more precise about which regions are dirty, so collections scan less. Microsoft's benchmarks report **GC pause improvements from 8% to over 20%** on Arm64, at a slight cost to barrier throughput. That is the number that matters for Graviton/Ampere fleets.
+
+**Barrier elision.** Independently of Arm64, .NET 10 requires **return buffers for structs to live on the stack**. Previously a callee writing a struct that contains references had to emit write barriers in case the hidden return buffer pointed at the heap. Stack is not GC-tracked, so those barriers disappear. The win shows up in code that returns medium structs with references through several layers without inlining.
 
 **Deeper understanding**
 
-DATAS trades a little throughput for a lot of memory predictability. Disable it when you have a genuinely large, steady heap and you are optimizing for raw throughput on a dedicated host. Keep it for anything running in a container with a memory limit — which is most services.
+DATAS is unlike most GC features: it is **not** a free throughput win. It trades some allocation throughput and more frequent ephemeral GCs for a heap that tracks live data. That is the right trade for bursty services in containers — the memory you give back can be used by other pods, and capacity planning stops depending on which SKU the process landed on. It is the wrong trade when you have a dedicated host, a large steady heap, and no use for freed memory.
 
-**Related concepts:** [Escape Analysis](#r1-escape-analysis-and-stack-allocation) reduces the work DATAS has to manage in the first place.
+When DATAS is a poor fit (turn it off and measure):
+
+| Situation | Why |
+|-----------|-----|
+| Dedicated host, maximize peak RPS | You will not use the memory DATAS frees |
+| Startup latency is the SLO | DATAS starts at one heap and ramps; classic Server GC starts at full heap count |
+| Zero tolerance for throughput loss | Default TCP is 2%; classic Server GC may sit lower |
+| Workload is almost all gen2 (temporary LOH traffic) | DATAS is tuned around ephemeral GCs |
+
+If DATAS is close but not quite: raise `GCDTargetTCP` before disabling it. Do not set `GCHeapCount` and expect DATAS to still adapt.
+
+The write-barrier work is the opposite kind of change: **pauses get cheaper** because collections scan more precisely, and some mutator stores stop paying a barrier at all. Combined with [escape analysis](#r1-escape-analysis-and-stack-allocation), fewer objects ever enter a generation, so DATAS has less to manage.
+
+**Interview line:** "The GC still collects generations; .NET 10 changes *how big the heap is allowed to be* (DATAS on LTS) and *how cheap it is to keep generational tracking correct* (Arm64 barriers and stack return buffers)."
+
+**Related concepts:** [Escape Analysis](#r1-escape-analysis-and-stack-allocation) reduces the work DATAS has to manage in the first place. [S2](#s2-how-does-datas-change-capacity-planning) is the capacity-planning follow-up.
 
 ---
 
