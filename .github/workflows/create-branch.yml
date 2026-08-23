@@ -1,0 +1,73 @@
+name: Create Branch
+
+# Trigger via GitHub API (workflow_dispatch):
+#   POST /repos/{owner}/{repo}/actions/workflows/create-branch.yml/dispatches
+#   Authorization: Bearer <token with actions:write + contents:write>
+#   Body:
+#     {
+#       "ref": "main",
+#       "inputs": {
+#         "branch_name": "feature/my-branch",
+#         "base_ref": "main"
+#       }
+#     }
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: Name of the branch to create
+        required: true
+        type: string
+      base_ref:
+        description: Existing branch or commit SHA to branch from
+        required: false
+        default: main
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: create-branch-${{ github.event.inputs.branch_name }}
+  cancel-in-progress: false
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout base
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.base_ref }}
+
+      - name: Validate branch name
+        env:
+          BRANCH_NAME: ${{ inputs.branch_name }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${BRANCH_NAME}" ]]; then
+            echo "::error::branch_name is required"
+            exit 1
+          fi
+          if [[ "${BRANCH_NAME}" == refs/* ]]; then
+            echo "::error::Pass the short branch name (e.g. feature/foo), not a full ref"
+            exit 1
+          fi
+          if ! git check-ref-format --branch "${BRANCH_NAME}"; then
+            echo "::error::Invalid branch name: ${BRANCH_NAME}"
+            exit 1
+          fi
+
+      - name: Create and push branch
+        env:
+          BRANCH_NAME: ${{ inputs.branch_name }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin "${BRANCH_NAME}" >/dev/null 2>&1; then
+            echo "::error::Branch already exists on origin: ${BRANCH_NAME}"
+            exit 1
+          fi
+          git checkout -B "${BRANCH_NAME}"
+          git push -u origin "HEAD:refs/heads/${BRANCH_NAME}"
+          echo "Created origin/${BRANCH_NAME} from ${{ inputs.base_ref }}"
